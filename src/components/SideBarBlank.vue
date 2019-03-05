@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar style="width: 100%">
+  <el-scrollbar style="width: 100%;height: 100%;background-color: #fff"><!--隐藏滚动条-->
     <div class="main">
       <div  class="icon">
         <h2 class="item">工具箱</h2>
@@ -26,7 +26,7 @@
   .main{
     margin-top: -20px;
     background-color: #fff;
-    height: 820px;
+    height: 100%;
     position: relative;
   }
   .icon{
@@ -50,5 +50,6 @@
   }
   .el-scrollbar__wrap {
     overflow-x: hidden;
+    overflow-y: hidden;
   }
 </style>

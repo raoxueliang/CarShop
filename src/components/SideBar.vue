@@ -1,12 +1,17 @@
 <template>
-  <div style="height: 820px;background-color: #222">
+  <div style="height:100%;background-color: #222">
     <div>
       <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" :content="sideBarItems[i-1].tag" placement="left" v-for="i in 3" :key="i">
         <i :class="sideBarItems[i-1].fa"></i>
       </el-tooltip>
     </div>
-    <div style="margin-top: 420px">
-      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" :content="sideBarItems[i-1].tag" placement="left" v-for="i in [4,5,6]" :key="i">
+    <div style="height: calc(100% - 120px * 2)"></div>
+    <div>
+      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" placement="left"  key="4">
+        <div slot="content">客服电话：<span style="font-size: 20px">XXXXXXXX</span><br/>服务时段：周一至周日9:00~21:00</div>
+        <i class="fa fa-phone fa-lg"></i>
+      </el-tooltip>
+      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" :content="sideBarItems[i-1].tag" placement="left" v-for="i in [5,6]" :key="i">
         <i :class="sideBarItems[i-1].fa"></i>
       </el-tooltip>
     </div>
@@ -17,11 +22,12 @@
     export default {
       data(){
         return{
+          //侧边栏项
           sideBarItems:[
             {fa:"fa fa-user fa-lg",tag:"我的"},
             {fa:"fa fa-shopping-cart fa-lg",tag:"购物车"},
             {fa:"fa fa-wrench fa-lg",tag:"工具箱"},
-            {fa:"fa fa-paper-plane fa-lg",tag:"反馈"},
+            {fa:"fa fa-phone fa-lg",tag:"客服电话"},
             {fa:"fa fa-map-marker fa-lg",tag:"定位"},
             {fa:"fa fa-angle-up fa-lg",tag:"返回顶部"},
           ],
