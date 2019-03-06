@@ -8,25 +8,38 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
       components: {
         'topBar': resolve => require(["./components/TopBar.vue"], resolve),
-        'sideBar': resolve => require(["./components/SideBar.vue"], resolve),
-        'sideBarBlank': resolve => require(["./components/SideBarBlank.vue"], resolve),
+        'asideBar': resolve => require(["./components/AsideBar.vue"], resolve),
+        'asideBarBlank': resolve => require(["./components/AsideBarBlank.vue"], resolve),
         'bottomBar': resolve => require(["./components/BottomBar.vue"], resolve),
         'mainBox': resolve => require(["./components/MainBox.vue"], resolve),
       },
-      redirect:'/home',
       children:[
         {
           path:'/home',
           name:'Home',
-          component: resolve => require(["./views/Home.vue"], resolve),
+          components:{
+            'default':resolve => require(["./views/Home.vue"], resolve),
+            'userBlankBox': resolve => require(["./views/User.vue"], resolve),
+            'shopCartBlankBox': resolve => require(["./views/ShopCart.vue"], resolve),
+            'toolBlankBox': resolve => require(["./views/Tool.vue"], resolve),
+          }
         },
         {
           path:'/search',
           name:'search',
           component: resolve => require(["./views/SearchResult.vue"], resolve),
+        },
+        {
+          path:'/product/:id',
+          name:'Goods',
+          components:{
+            'default':resolve => require(["./views/ProductInfo.vue"], resolve),
+            'userBlankBox': resolve => require(["./views/User.vue"], resolve),
+            'shopCartBlankBox': resolve => require(["./views/ShopCart.vue"], resolve),
+            'toolBlankBox': resolve => require(["./views/Tool.vue"], resolve),
+          }
         }
       ]
     },

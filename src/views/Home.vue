@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <el-row gutter="24">
+        <el-row :gutter="24">
           <el-col :span="5">
             <div>
               <h2>saasdas</h2>
@@ -217,7 +217,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   el-col{
     border: solid;
   }
@@ -226,12 +226,16 @@
     line-height: 46px;
     overflow: hidden;
   }
-  .slogan h2,.slogan span{
-    float: left;
-  }
-  .slogan span{
-    margin-top: 23px;
-    margin-left: 10px;
+  .slogan{
+    h2{
+      float: left;
+      font-size: 25px;
+    }
+    span{
+      float: left;
+      margin-top: 4px;
+      margin-left: 10px;
+    }
   }
   .clear-fix{
     position: relative;
@@ -239,87 +243,78 @@
   .goods-box{
     background-color: #fff;
   }
-  ul{
-    list-style: none;
-  }
   .custom-list-car{
     width: 720px;
     position: absolute;
     margin-top: -300px;
-    /*background-color: #fff;*/
-    margin-left: 300px;
-  }
-  .custom-list-car li{
-    float: left;
-    width: 200px;
-    height: 210px;
-    padding: 25px 10px;
-    margin-right: 10px;
-    background: #fff;
-    text-align: center;
+    margin-left: 360px;
+    li{
+      float: left;
+      width: 180px;
+      height: 210px;
+      padding: 25px 10px;
+      margin-right: 10px;
+      background: #fff;
+      text-align: center;
+    }
   }
   .goods-title{
     font-size: 18px;
     height: 31px;
     overflow: hidden;
-    margin-top: -20px;
+    margin-top: -5px;
   }
   .goods-subtitle{
     font-size: 16px;
     line-height: 30px;
     height: 28px;
     overflow: hidden;
-    margin-top: -10px;
   }
   .goods-price{
     color: #c71445;
     font-size: 24px;
-    margin-top: -20px;
-  }
-  .goods-img{
-    margin-top: -20px;
   }
   .lazy{
     transition-property: margin-left;
     transition-duration: 0.5s;
-  }
-  .lazy:hover{
-    margin-left: -20px;
+    &:hover{
+      margin-left: -20px;
+    }
   }
   .shop-list{
-    margin-top: 100px;
-    margin-left: -35px;
+    margin-top: 60px;
+    margin-left: 1px;
   }
   .shop-item{
-    width: 205px;
+    width: 208px;
     height: 193px;
     border: 1px solid #ccc;
     float: left;
     text-align: center;
     margin: -1px 0 0 -1px;
     box-sizing: border-box;
-  }
-  .shop-item a img{
-    width: 100px;
-    height: 75px;
-    margin: 0 auto;
-    margin-top: 30px;
-  }
-  .shop-item h4{
-    font-size: 18px;
-    font-weight: normal;
-    color: #000;
-    line-height: 30px;
-    margin-top: 10px;
-  }
-  .shop-item p{
-    font-size: 14px;
-    color: #999;
-    margin-top: -20px;
-  }
-  .shop-item:hover{
-    -webkit-box-shadow:0px 3px 3px #c8c8c8 inset;
-    -moz-box-shadow:0px 3px 3px #c8c8c8 inset;
-    box-shadow:0px 3px 3px #c8c8c8 inset;
+    a img{
+      width: 100px;
+      height: 75px;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+    h4{
+      font-size: 18px;
+      font-weight: normal;
+      color: #000;
+      line-height: 30px;
+      margin-top: 10px;
+    }
+    p{
+      font-size: 14px;
+      color: #999;
+      margin-top: -20px;
+    }
+    &:hover{
+      -webkit-box-shadow:0px 3px 3px #c8c8c8 inset;
+      -moz-box-shadow:0px 3px 3px #c8c8c8 inset;
+      box-shadow:0px 3px 3px #c8c8c8 inset;
+    }
   }
 </style>

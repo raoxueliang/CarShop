@@ -1,20 +1,32 @@
 <template>
   <div style="height:100%;background-color: #222">
-    <div>
-      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" :content="sideBarItems[i-1].tag" placement="left" v-for="i in 3" :key="i">
-        <i :class="sideBarItems[i-1].fa"></i>
-      </el-tooltip>
-    </div>
-    <div style="height: calc(100% - 120px * 2)"></div>
-    <div>
-      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" placement="left"  key="4">
-        <div slot="content">客服电话：<span style="font-size: 20px">XXXXXXXX</span><br/>服务时段：周一至周日9:00~21:00</div>
+    <el-menu class="el-menu-vertical-demo" style="height: 100%">
+      <el-menu-item id="user" index="1" class="asideBarItem" @click="toggle">
+        <i class="fa fa-user fa-lg"></i>
+        <span slot="title"></span>
+      </el-menu-item>
+      <el-menu-item id="shopCart" index="2" class="asideBarItem" @click="toggle">
+        <i class="fa fa-shopping-cart fa-lg"></i>
+        <span slot="title"></span>
+      </el-menu-item>
+      <el-menu-item id="tool" index="3" class="asideBarItem" @click="toggle">
+        <i class="fa fa-wrench fa-lg"></i>
+        <span slot="title"></span>
+      </el-menu-item>
+      <el-menu-item index="0" class="blank" style="height: calc(100% - 350px)"></el-menu-item>
+      <el-menu-item index="4" class="asideBarItem">
         <i class="fa fa-phone fa-lg"></i>
-      </el-tooltip>
-      <el-tooltip class="item" transition="el-zoom-in-left" effect="dark" :content="sideBarItems[i-1].tag" placement="left" v-for="i in [5,6]" :key="i">
-        <i :class="sideBarItems[i-1].fa"></i>
-      </el-tooltip>
-    </div>
+        <span slot="title"></span>
+      </el-menu-item>
+      <el-menu-item index="5" class="asideBarItem">
+        <i class="fa fa-map-marker fa-lg"></i>
+        <span slot="title"></span>
+      </el-menu-item>
+      <el-menu-item index="6" class="asideBarItem">
+        <i class="fa fa-angle-up fa-lg"></i>
+        <span slot="title"></span>
+      </el-menu-item>
+    </el-menu>
   </div>
 </template>
 
@@ -36,9 +48,12 @@
         }
       },
       methods:{
+        toggle(){
+          this.$emit("toggleAsideBarBlankBox",{id:event.currentTarget.id})
+        },
         toggleState(){
           // console.log(event.target);
-          this.$emit('toggleSideBarBlank');
+          this.$emit('toggleAsideBarBlank');
         },
         handleScroll() {
           this.scrollTop =
@@ -77,16 +92,17 @@
     }
 </script>
 
-<style scoped>
-  .fa{
-    float: top;
-    width: 100%;
-    margin-top: 20px;
+<style lang="less" scoped>
+  .asideBarItem{
+    padding-left: 1px;
   }
   i{
-    color: #fff;
+    width: 15px;
   }
-  i:hover{
-    color: red;
+  .el-menu{
+    border: none;
+  }
+  .el-menu-item.blank:hover{
+    background-color: #fff;
   }
 </style>
