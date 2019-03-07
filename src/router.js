@@ -56,6 +56,13 @@ export default new Router({
             'default':resolve => require(["./views/Register.vue"], resolve),
           }
         },
+        {
+          path:'/user/:id',
+          name:'User',
+          components:{
+            'default':resolve => require(["./views/User.vue"], resolve),
+          }
+        },
       ]
     },
     {
