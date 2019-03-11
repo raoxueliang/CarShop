@@ -25,7 +25,7 @@
       <!--底部登陆忘记密码按钮-->
       <span slot="footer" class="dialog-footer" v-if="!loginStatus">
         <el-button type="primary" round :disabled=loginDisabled @click="onSubmit">立即登录</el-button>
-        <el-button type="primary" round  @click="toForgotPassword">忘记密码</el-button>
+        <el-button type="primary" round  @click="toForgot">忘记密码</el-button>
       </span>
     </el-dialog>
   </div>
@@ -48,6 +48,12 @@
           }
       },
       methods:{
+        onSubmit(){
+          //TODO: 数据格式验证完毕，实现登录功能
+        },
+        toForgot(){
+          //TODO:跳转忘记密码功能
+        },
         //显示登陆窗口时初始化数据
         loginInit(){
           this.props.radio='0'
@@ -59,6 +65,11 @@
         loginClose(){
           this.identify.show=false
         },
+      },
+      computed:{
+        loginStatus(){
+          //TODO:获取当前用户登录状态
+        }
       }
     }
 </script>

@@ -165,33 +165,7 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            let data = this.registerUser;
-            //console.log(data);
-            this.$ajax.post('http://localhost:8080/user/saveOne/', JSON.stringify(data),
-              {
-                headers: { 'Content-Type': 'application/json;charset=UTF-8'}
-              }
-            ).then(response=> {
-              //console.log(response);
-              sessionStorage.setItem("user",JSON.stringify(this.user))
-              sessionStorage.setItem("userId",this.user.id)
-              this.$store.commit("setUser",this.user)
-              this.$store.commit("changeLoginStatus")
-              if(sessionStorage.getItem("userId")===this.user.id){
-                this.$message.success({
-                  message:"注册成功",
-                  showClose:true
-                })
-                this.$router.push({name:'Home'})
-              }
-              //console.log('submit!');
-            }).catch(function (error){
-              //console.log(error)
-              //console.log("save failed！")
-            });
-          } else {
-            console.log('error submit!!');
-            return false;
+            //TODO : 验证数据成功，实现注册
           }
         });
       },
