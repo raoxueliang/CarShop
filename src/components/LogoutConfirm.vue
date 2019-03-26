@@ -21,7 +21,7 @@
       props:['props'],
       methods:{
         logout(){
-          //TODO:实现注销功能
+          //实现注销功能
           this.$store.dispatch("LogOut").then(()=>{
             /*window.location.reload()*/
             document.getElementById("asideBarBlank").style.width="0px"

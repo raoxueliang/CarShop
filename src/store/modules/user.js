@@ -6,22 +6,26 @@ const user = {
   state: {
     id: '',
     token: getToken('token'),
-    status: false,
     name: '',
+    sex:'',
+    phone:'',
+    loc:'',
+    roles: '',
     avatar: '',
-    introduction: '',
-    roles: [],
+    status: false,
   },
 
   mutations: {
     SET_USER:(state,user)=>{
       state.id=user.id
       state.token = user.token
-      state.status = true
       state.name = user.name
-      state.avatar = user.avatar
-      state.introduction = user.introduction
+      state.sex = user.sex
+      state.phone = user.phone
+      state.loc = user.loc
       state.roles = user.roles
+      state.avatar = user.avatar
+      state.status = true
     },
     SET_ID: (state, id) => {
       state.id = id
@@ -47,15 +51,24 @@ const user = {
     CLEAR_USER:(state)=>{
       state.id=''
       state.token = ''
-      state.status = false
       state.name = ''
+      state.sex = ''
+      state.phone = ''
+      state.loc = ''
+      state.roles = ''
       state.avatar = ''
-      state.introduction = ''
-      state.roles = []
+      state.status = false
     }
   },
 
   actions: {
+    //用户信息状态初始化
+    UserInfoInit({commit}){
+      return new Promise(resolve => {
+        commit('CLEAR_USER',false)
+        resolve()
+      })
+    },
     // 用户名登录
     LoginByUsername({ commit }, loginInfo) {
       const id = loginInfo.id.trim()
@@ -133,9 +146,7 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_STATUS',false)
-          commit('CLEAR_USER', [])
+          commit('CLEAR_USER')
           removeToken('token')
           resolve()
         }).catch(error => {
@@ -147,8 +158,7 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        commit('SET_STATUS',false)
+        commit('CLEAR_USER',false)
         removeToken('token')
         resolve()
       })

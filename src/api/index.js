@@ -1,8 +1,5 @@
-const baseUrl = "http://localhost:8080/"
-const Url = {
-  login: baseUrl + 'login',
-  register: baseUrl + 'register',
-  search: baseUrl + 'search/',
-  findOneProduct: baseUrl + 'findOneBy/'
+const url={
+  serverUrl:"192.168.1.109:8080",
+  baseUrl:"http://192.168.1.109:8080"
 }
-export default Url;
+export default url;

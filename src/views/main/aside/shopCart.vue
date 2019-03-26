@@ -7,8 +7,8 @@
         <!--显示商品信息-->
         <el-table-column label="商品名称" width="250">
           <template slot-scope="scope"><div style="margin-left: 50px">
-            ![](scope.row.goods.img)
-            <span style="font-size: 18px;padding-left: 200px;">{{scope.row.description}}</span>
+            <img :src="scope.row.img" width="100px">
+            <span style="font-size: 18px;display: block">{{scope.row.description}}</span>
           </div></template>
         </el-table-column>
       </el-table>
@@ -19,7 +19,7 @@
         <div id="totalInfo">
           <label id="amount">已选{{amount}}件</label><label id="totalPrice">￥{{totalPrice}}</label>
         </div>
-        <div id="balance"><el-button>结算</el-button></div>
+        <div id="balance"><el-button @click="balance">结算</el-button></div>
       </div>
     </el-scrollbar>
   </div>
@@ -34,39 +34,48 @@
           tableData:[
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"120",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
             {
               price:120,
-              description:"123"
+              description:"123",
+              img:"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif"
             },
           ],
           amount:0,
           totalPrice:0,
+          selItems:[],
         }
       },
       methods:{
@@ -80,6 +89,13 @@
           }
           this.amount=totalGoods
           this.totalPrice=totalPrice
+          this.selItems=val
+        },
+        balance(){
+          this.$router.push({
+            name:'Balance',
+            params:{data:this.selItems}
+          })
         }
       }
     }

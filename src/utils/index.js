@@ -295,7 +295,7 @@ export function createUniqueString() {
   const randomNum = parseInt((1 + Math.random()) * 65536) + ''
   return (+(randomNum + timestamp)).toString(32)
 }
-
+//缓慢移动到指定位置
 export function goToElement(scrollTo) {
   let timer = null
   cancelAnimationFrame(timer);
@@ -318,5 +318,10 @@ export function goToElement(scrollTo) {
       }
     });
   }
+}
 
+//数组去重
+export function unique(arr,value) {
+  const res = new Map();
+  return arr.filter((arr) => !res.has(arr[value]) && res.set(arr[value], 1))
 }

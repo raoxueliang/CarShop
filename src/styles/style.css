@@ -28,3 +28,26 @@ ul{
 aside#asideBarBlank{
   overflow-x: hidden;
 }
+.avatar{
+  width: 150px;
+  height: 150px;
+  border-radius:50%;
+}
+/*地址选择框css*/
+.area-select-wrap{
+  display: flex;
+  z-index: 10000;
+}
+.area-select.medium{
+  width: 150px;
+}
+.area-select-wrap .area-select:first-child{
+  margin-left: 0px;
+}
+.area-selected-trigger{
+  padding: 0px !important;
+  z-index: 100;
+}
+.area-select-wrap .area-select+.area-select{
+  margin-left: 10px!important;
+}

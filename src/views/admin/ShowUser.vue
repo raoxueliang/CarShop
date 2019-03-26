@@ -7,7 +7,7 @@
           <el-input v-model="filters.name" placeholder="姓名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" v-on:click="getUsers">查询</el-button>
+          <el-button type="primary" @click="getUsers">查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleAdd">新增</el-button>
@@ -16,7 +16,13 @@
     </el-col>
 
     <!--列表-->
-    <el-table :data="users" highlight-current-row @selection-change="selsChange" v-loading="listLoading" style="width: 100%;">
+    <el-table
+      :data="users"
+      highlight-current-row
+      @selection-change="selsChange"
+      v-loading="listLoading"
+      height="480"
+      style="width: 100%;">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column type="index" width="60">
@@ -297,7 +303,7 @@
 <style lang="less" scoped>
   .toolbar{
     position: relative;
-    button{
+    &>button{
       position: absolute;
       left: 0px;
     }

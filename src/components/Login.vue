@@ -2,6 +2,10 @@
   <div>
     <el-dialog ref="loginForm" :model="loginForm" :visible.sync="props.show" title="登录" center width="40%" @open="loginInit" @close="loginClose">
       <el-form ref="form" :model="loginForm" style="width: 350px;margin:auto;">
+        <el-tabs v-model="loginForm.role" @tab-click="handleClick">
+          <el-tab-pane label="普通用户登陆" name="user"></el-tab-pane>
+          <el-tab-pane label="管理员登陆" name="admin"></el-tab-pane>
+        </el-tabs>
         <!--用户名输入-->
         <el-form-item>
           <el-input v-model="loginForm.id" placeholder="输入用户名"  class="input">
@@ -54,6 +58,7 @@
       data(){
           return{
             loginForm:{
+              role:'user',
               id: getToken('id'),
               password: getToken('password')
             },
@@ -92,6 +97,9 @@
         },
         toForgot(){
           //TODO:跳转忘记密码功能
+        },
+        handleClick(tab, event) {
+          this.loginInit()
         },
         showPwd() {
           if (this.passwordType === 'password') {

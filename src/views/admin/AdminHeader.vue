@@ -40,6 +40,11 @@
         let logo=document.getElementsByClassName("logo")[0]
         logo.style.opacity=logo.style.opacity==="1"?"0":"1"
         this.$emit("collapse")
+      },
+      logout(){
+        this.$store.dispatch("LogOut").then(()=>{
+          this.$router.push({ path:'/home'})
+        })
       }
     },
     mounted() {

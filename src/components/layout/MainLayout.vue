@@ -11,7 +11,7 @@
       </el-container>
       <el-footer id="bottomBar"><router-view name="bottomBar"></router-view></el-footer>
       <el-scrollbar><!--隐藏滚动条-->
-        <el-aside v-if="show" width="300px" id="asideBarBlank">
+        <el-aside v-if="show&&this.$route.path!=='/balance'" width="300px" id="asideBarBlank">
             <router-view v-if="asideBarNow=='hover-user'" name="userBlankBox"></router-view>
             <router-view v-if="asideBarNow=='hover-shop-cart'" name="shopCartBlankBox"></router-view>
             <router-view v-if="asideBarNow=='hover-tool'" name="toolBlankBox"></router-view>
@@ -19,7 +19,7 @@
       </el-scrollbar>
     </el-container>
     <router-view></router-view>
-    <float id="float" :float="status?floatLogin:floatNoLogin" @toggleAsideBarBlankBox="toggle"></float>
+    <float v-if="this.$route.path!=='/balance'" id="float" :float="status?floatLogin:floatNoLogin" @toggleAsideBarBlankBox="toggle"></float>
     <el-button id="top" type="primary" circle @click="toTop">
       <svg-icon icon-class="angle-up"></svg-icon>
     </el-button>
@@ -84,11 +84,13 @@
           this.showTop=true
         else
           this.showTop=false
-        document.getElementById("asideBarBlank").style.right="-300px"
-        document.getElementById("float").style.right="10px"
-        document.getElementById("top").style.right=this.showTop?"10px":"-36px"
+        if(document.getElementById("asideBarBlank"))
+          document.getElementById("asideBarBlank").style.right="-300px"
+        if(document.getElementById("float"))
+          document.getElementById("float").style.right="10px"
+        if(document.getElementById("top"))
+          document.getElementById("top").style.right=this.showTop?"10px":"-36px"
       },
-
     },
     //主页初始化
     mounted(){
@@ -98,6 +100,9 @@
       this.clientHeight=document.documentElement.clientHeight
       //为浏览器滑动绑定事件以达到滑动半屏显示返回顶部按钮
       window.addEventListener("scroll",this.scroll)
+    },
+    destroyed(){
+      window.removeEventListener('scroll',this.scroll)
     },
     computed: {
       topBarKey() {
