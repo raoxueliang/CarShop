@@ -36,6 +36,7 @@
 
     .avatar, .name {
         vertical-align: middle;
+      color: #ffffff;
     }
     .avatar {
       width: 50px;

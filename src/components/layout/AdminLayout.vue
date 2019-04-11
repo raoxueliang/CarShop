@@ -18,7 +18,7 @@
     data(){
       return{
         isCollapse:false,
-        defaultActive:this.$store.getters.roles==='superAdmin'?'0':'2',
+        defaultActive:'-1'
       }
     },
     methods:{
@@ -37,7 +37,7 @@
         if(this.tempRoles==='')
           this.defaultActive='1'
         else
-          this.defaultActive='2'
+          this.defaultActive='3'
       }
     },
     computed:{

@@ -13,7 +13,9 @@
           <img :src="user.avatar===''?defaultAvatar:user.avatar" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>设置</el-dropdown-item>
+          <el-dropdown-item>
+            <router-link :to="{name:'User'}">设置</router-link>
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

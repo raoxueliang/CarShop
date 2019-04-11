@@ -11,7 +11,10 @@ export default {
     if (searchMap[text]) {
       return searchMap[text]
     } else {
-      return false
+      return {
+        code:400,
+        data:false
+      }
     }
   }
 }

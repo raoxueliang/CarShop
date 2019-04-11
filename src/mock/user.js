@@ -3,25 +3,43 @@ import {userMap} from "./data/user";
 
 
 export default {
-  loginByUsername: config => {
-    const { username } = JSON.parse(config.body)
-    return userMap[username]
+  loginById: config => {
+    const { id } = JSON.parse(config.body)
+    return {
+      data:userMap[id],
+      code:400
+    }
+
   },
   getUserInfo: config => {
     const { token } = param2Obj(config.url)
     if (userMap[token]) {
-      return userMap[token]
+      return {
+        data:userMap[token],
+        code:400
+      }
     } else {
       return false
     }
   },
   register: config => {
-    const { username } = JSON.parse(config.body)
-    return userMap[username]
+    const { id } = JSON.parse(config.body)
+    return {
+      data:userMap[id],
+      code:400
+    }
   },
   checkedUser:config=>{
     const { username } = JSON.parse(config.body)
-    return 'success';
+    return {
+      dara:'success',
+      code:400
+    };
   },
-  logout: () => 'success'
+  logout:config=>{
+    return {
+      dara:'success',
+      code:400
+    };
+  }
 }

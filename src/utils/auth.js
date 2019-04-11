@@ -8,7 +8,7 @@ export function getToken(TokenKey) {
 }
 
 export function setToken(TokenKey,token) {
-  if(TokenKey=='token')
+  if(TokenKey==='token')
     return Cookies.set(TokenKey, token,{ expires:1 })
   else
     return Cookies.set(TokenKey, token,{expires:3})

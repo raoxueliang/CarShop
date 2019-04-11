@@ -9,9 +9,6 @@ let addShop={
   shopId:'',
   shopName:'',
   phone:'',
-  brandId: '',
-  brandName: '',
-  display: '',
-  logo: '',
+  brandId: ''
 }
 export {addUser,addShop}

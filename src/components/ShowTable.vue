@@ -22,27 +22,32 @@
               max-height="600"
               header-row-class-name="center"
               @selection-change="selItemsChange"
-              height="480"
-              border>
+              ref="table"
+              height="480">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item v-for="o in dataExpand" :label="o.tag" :key="o.prop">
+            <el-form-item v-for="o in dataExpand" :label="o.tag" :key="o.val?o.val:o.prop">
               <template>
-                <label v-if="o.type==='label'" style="margin-left: 11px" >{{props.row[o.prop]}}</label>
-                <img v-else-if="o.type==='img'" :src="props.row[o.prop]" :alt="props.row[o.prop]" style="width: 50px;height: 50px">
+                <label v-if="o.type==='label'?true:o.type==='input'" style="margin-left: 11px" >{{o.val?props.row[o.prop][o.val]:props.row[o.prop]}}</label>
+                <img v-else-if="o.type==='img'" :src="serverAvatarUrl(o.val?props.row[o.prop][o.val]:props.row[o.prop])" :alt="o.val?props.row[o.prop][o.val]:props.row[o.prop]" style="width: 50px;height: 50px">
               </template>
             </el-form-item>
           </el-form>
         </template>
       </el-table-column>
       <template v-for="o in dataSpread">
-        <el-table-column v-if="o.type==='label'" :prop="o.prop" :label="o.tag"></el-table-column>
+        <el-table-column v-if="!o.val&&o.type==='label'||o.type==='input'" :prop="o.prop" :label="o.tag"></el-table-column>
         <el-table-column v-else-if="o.type==='img'" :prop="o.prop" :label="o.tag">
           <template slot-scope="scope">
-            <img :src="scope.row[o.prop]" :alt="scope.row[o.prop]" style="width: 50px;height: 50px">
+            <img :src="serverAvatarUrl(scope.row[o.prop])" :alt="scope.row[o.prop]" style="width: 50px;height: 50px">
+          </template>
+        </el-table-column>
+        <el-table-column v-else-if="o.val" :prop="o.prop" :label="o.tag">
+          <template slot-scope="scope">
+            {{scope.row[o.prop][o.val]}}
           </template>
         </el-table-column>
       </template>
@@ -55,7 +60,7 @@
       </el-table-column>
     </el-table>
     <el-col :span="24" class="toolbar">
-      <el-button type="danger" :disabled="this.selItems.length===0">批量删除</el-button>
+      <el-button type="danger" @click="batchRemove" :disabled="this.selItems.length===0">批量删除</el-button>
       <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
       </el-pagination>
     </el-col>
@@ -64,11 +69,14 @@
     <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
       <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
         <el-form-item v-for="o in dataType" :label="o.tag" :prop="o.prop" :key="o.prop">
-          <el-input v-if="o.type==='label'" v-model="editForm[o.prop]"></el-input>
-          <el-upload v-else-if="o.type==='img'" action="" class="avatar-upload">
-            <img width="50px" v-if="editForm[o.prop]" :src="editForm[o.prop]" class="avatar">
+          <el-input v-if="o.type==='input'" v-model="editForm[o.prop]"></el-input>
+          <el-upload v-else-if="o.type==='img'" action=""
+                     class="avatar-upload"
+                     list-type="picture">
+            <img width="50px" v-if="editForm[o.prop]" :src="serverAvatarUrl(editForm[o.prop])" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <label v-else-if="o.type==='label'">{{editForm[o.prop]}}</label>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -80,12 +88,9 @@
     <!--新增界面-->
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
       <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-        <el-form-item v-for="o in dataType" :label="o.tag" :prop="o.prop" :key="o.prop">
-          <el-input v-if="o.type==='label'" v-model="addForm[o.prop]"></el-input>
-          <el-upload v-else-if="o.type==='img'" action="" class="avatar-upload">
-            <img width="50px" v-if="addForm[o.prop]" :src="addForm[o.prop]" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+        <el-form-item v-for="o in addFormItem" :label="o.tag" :prop="o.val?o.val:o.prop" :key="o.val?o.val:o.prop">
+          <el-input v-if="o.val" v-model="addForm[o.val]"></el-input>
+          <el-input v-else v-model="addForm[o.prop]"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -99,15 +104,18 @@
 <script>
   import * as dataFunc from '@/api/admin'
   import * as dataAdd from '@/utils/object'
-  import {unique} from "@/utils";
+  import {uniqueTableProp} from "@/utils";
+  import {serverAvatar} from "../api";
 
   export default {
     name: "ShowTable",
     props:{
+      //表格数据名称
       tableType:{
         type:String,
         required:true
       },
+      //表格主键
       tableKey:{
         type:Array,
         required:true
@@ -118,6 +126,14 @@
       },
       dataExpand:{
         type:Array,
+        required:false
+      },
+      editFormRules:{
+        type:Object,
+        required:false
+      },
+      addFormRules:{
+        type:Object,
         required:false
       }
     },
@@ -140,22 +156,12 @@
 
         editFormVisible: false,//编辑界面是否显示
         editLoading: false,
-        editFormRules: {
-          name: [
-            {required: true, message: '请输入姓名', trigger: 'blur'}
-          ]
-        },
         //编辑界面数据
         editForm: Object,
         addFormVisible: false,//新增界面是否显示
         addLoading: false,
-        addFormRules: {
-          name: [
-            {required: true, message: '请输入姓名', trigger: 'blur'}
-          ]
-        },
         //新增界面数据
-        addForm: Object
+        addForm: {}
       }
     },
     methods: {
@@ -164,16 +170,16 @@
         this.getData();
       },
       //显示新增界面
-      handleAdd: function () {
+      handleAdd() {
         this.addFormVisible = true;
         this.addForm = dataAdd[this.addObject];
       },
       //显示编辑界面
-      handleEdit: function (index, row) {
+      handleEdit(index, row) {
         this.editFormVisible = true;
         this.editForm = Object.assign({}, row);
       },
-      handleCheck: function (index, row){
+      handleCheck(index, row){
         this.$store.dispatch('SetTempRoles',row[this.tableKey]).then(()=>{
 
         })
@@ -184,20 +190,28 @@
         })
       },
       //编辑
-      editSubmit: function () {
+      editSubmit() {
         this.$refs.editForm.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.editLoading = true;
               //NProgress.start();
               let para = Object.assign({}, this.editForm);
+              console.log(para)
               dataFunc[this.editFuc](para).then((res) => {
-                this.editLoading = false;
-                //NProgress.done();
-                this.$message({
-                  message: '提交成功',
-                  type: 'success'
-                });
+                if(res==='success'){
+                  this.editLoading = false;
+                  //NProgress.done();
+                  this.$message({
+                    message: '提交成功',
+                    type: 'success'
+                  });
+                }else if(res==='fail'){
+                  this.$message({
+                    message: '提交失败',
+                    type: 'warning'
+                  });
+                }
                 this.$refs['editForm'].resetFields();
                 this.editFormVisible = false;
                 this.getData();
@@ -214,64 +228,119 @@
           name: this.filters.name
         };
         dataFunc[this.getFuc](para).then((data) => {
-          this.total = data.data.total;
-          this.tableData = data.data.datas;
+          this.total = data.total;
+          this.tableData = data.data;
           this.listLoading = false;
           //NProgress.done();
         });
       },
       //删除
-      handleDel: function (index, row) {
+      handleDel(index, row) {
         this.$confirm('确认删除该记录吗?', '提示', {
           type: 'warning'
         }).then(() => {
           this.listLoading = true;
           //NProgress.start();
-          let para = { };
+          let itemPara={}
+          let para = [];
           this.tableKey.forEach((key)=>{
-            para[key]=row[key]
+            itemPara[key]=row[key]
           })
+          para.push(itemPara)
           dataFunc[this.removeFuc](para).then((res) => {
-            this.listLoading = false;
-            console.log(para);
-            //NProgress.done();
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            });
-            this.getData();
+            if(res==='success'){
+              this.listLoading = false;
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.getData();
+            }
+            else if(res==='fail'){
+              this.listLoading = false;
+              this.$message({
+                message: '删除失败',
+                type: 'warning'
+              });
+            }
           });
         }).catch(() => {
 
         });
       },
       //新增
-      addSubmit: function () {
+      addSubmit() {
         this.$refs.addForm.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {
               this.addLoading = true;
-              //NProgress.start();
               let para = Object.assign({}, this.addForm);
               dataFunc[this.addFuc](para).then((res) => {
-                console.log(para)
-                this.addLoading = false;
-                //NProgress.done();
-                this.$message({
-                  message: '提交成功',
-                  type: 'success'
-                });
+                if(res==='success'){
+                  this.addLoading = false;
+                  this.$message({
+                    message: '提交成功',
+                    type: 'success'
+                  });
+                  this.getData();
+                }
+                else if(res==='fail'){
+                  this.addLoading = false;
+                  this.$message({
+                    message: '提交失败',
+                    type: 'warning'
+                  });
+                }
                 this.$refs['addForm'].resetFields();
                 this.addFormVisible = false;
-                this.getData();
               });
             });
           }
         });
       },
-      selItemsChange: function (sels) {
+      //批量删除
+      batchRemove() {
+        let para=[]
+        this.selItems.forEach(item=>{
+          let itemPara={}
+          this.tableKey.forEach((key)=>{
+            itemPara[key]=item[key]
+          })
+          para.push(itemPara)
+        })
+        let ids = this.selItems.map(item => item.id).toString();
+        this.$confirm('确认删除选中记录吗？', '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.listLoading = true;
+          dataFunc[this.removeFuc](para).then((res) => {
+            if(res==='success'){
+              this.listLoading = false;
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              });
+              this.getData();
+            }
+            else if(res==='fail'){
+              this.listLoading = false;
+              this.$message({
+                message: '删除失败',
+                type: 'warning'
+              });
+            }
+            this.$refs.table.clearSelection();
+          });
+        }).catch(() => {
+
+        });
+      },
+      selItemsChange(sels) {
         this.selItems = sels;
       },
+      serverAvatarUrl(url){
+        return serverAvatar+url
+      }
     },
     mounted() {
       //加载数据
@@ -281,14 +350,20 @@
       this.addFuc=this.addObject="add"+this.tableType
       this.dataType=this.dataType.concat(this.dataSpread).concat(this.dataExpand)
       this.dataType.sort(function (a, b) {
-        let order=["img","label"]
+        let order=["img","label","input"]
         return order.indexOf(a.type) - order.indexOf(b.type);
       })
-      this.dataType=unique(this.dataType,"prop")
+      this.dataType=uniqueTableProp(this.dataType)
       if(this.getFuc!=="")
         this.getData()
     },
-
+    computed:{
+      addFormItem(){
+        return this.dataType.filter(item=>{
+          return item.add
+        })
+      }
+    }
   }
 </script>
 

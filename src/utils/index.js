@@ -321,7 +321,18 @@ export function goToElement(scrollTo) {
 }
 
 //数组去重
-export function unique(arr,value) {
+export function uniqueTableProp(arr,value) {
   const res = new Map();
-  return arr.filter((arr) => !res.has(arr[value]) && res.set(arr[value], 1))
+  return arr.filter((arrItem) => {
+    if(arrItem.val)
+      return !res.has(arrItem.val) && res.set(arrItem.val, 1)
+    else
+      return !res.has(arrItem.prop) && res.set(arrItem.prop, 1)
+  })
+}
+
+//数组去重
+export function unique(arr) {
+  const res = new Map();
+  return arr.filter((arr) => !res.has(arr) && res.set(arr, 1))
 }

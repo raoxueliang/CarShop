@@ -9,10 +9,13 @@ import Cookies from 'js-cookie'
 import store from './store'//
 import anchor from './directive/anchor'
 import permission from './directive/permission'
+import scroll from './directive/scroll'
+import "animate.css/animate.min.css";
 
-import './mock' // simulation data
+/*import './mock' // simulation data*/
 import './permission' //
 import './icons' // icon
+
 
 import 'element-ui/lib/theme-chalk/index.css';
 import 'vue-area-linkage/dist/index.css'

@@ -2,7 +2,7 @@ const userMap = {
   superAdmin: {
     id:'superAdmin',
     token: 'superAdmin',
-    name: 'Super Admin',
+    name: 'superAdmin',
     sex:'1',
     phone:'133312341234',
     loc:'上海市松江区方松街道',
@@ -13,7 +13,7 @@ const userMap = {
   admin: {
     id:'admin',
     token: 'admin',
-    name: 'Admin',
+    name: 'admin',
     sex:'1',
     phone:'133312341234',
     loc:'上海市松江区方松街道',
@@ -24,7 +24,7 @@ const userMap = {
   normal: {
     id:'normal',
     token: 'normal',
-    name: 'Normal User',
+    name: 'normal',
     sex:'-1',
     phone:'133312341234',
     loc:'上海市松江区方松街道',
