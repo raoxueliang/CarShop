@@ -68,7 +68,7 @@ export function editBrand(data) {
 
 export function removeBrand(data) {
   return request({
-    url: '/admin/removeUser',
+    url: '/admin/removeBrand',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
@@ -123,9 +123,12 @@ export function addShop(data) {
 
 export function getCarListPage(data) {
   return request({
-    url: '/admin/getCarListPage',
-    method: 'get',
-    data
+    url: '/cars/getCarListPage',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 

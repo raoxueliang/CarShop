@@ -25,6 +25,19 @@
     },
     data(){
       return{
+        /*数据
+        * type:表数据类型
+        * key:主键
+        * spread:表格数据内容
+        * expand:表格折叠内容
+        * prop:数据项属性名称或外键对象名称
+        * val:外键对象属性名称
+        * tag:表格头文字说明
+        * type:显示类型
+        * add:是否显示在添加数据表单内
+        * edit:是否显示在编辑数据表单内
+        * addRules:添加数据表单验证规则
+        * editRules:编辑数据表单规则*/
         data:[
           {
             type:"User",
@@ -32,12 +45,12 @@
             spread:[
               {prop:"avatar",tag:"头像",type:"img"},
               {prop:"id",tag:"账号",type:"label",add:true},
-              {prop:"name",tag:"姓名",type:"input",add:true},
-              {prop:"sex",tag:"性别",type:"input",add:true},
+              {prop:"name",tag:"姓名",type:"input",add:true,edit:true},
+              {prop:"sex",tag:"性别",type:"input",add:true,edit:true},
             ],
             expand:[
-              {prop:"phone",tag:"联系电话",type:"input,add:true"},
-              {prop:"loc",tag:"地址",type:"input",add:true},
+              {prop:"phone",tag:"联系电话",type:"input",add:true,edit:true},
+              {prop:"loc",tag:"地址",type:"input",add:true,edit:true},
               {prop:"token",tag:"token",type:"label"},
               {prop:"status",tag:"登陆状态",type:"label"}
             ],
@@ -79,16 +92,26 @@
           },
           {
             type:"Car",
-            key:["name"],
+            key:["carId"],
             spread:[
-              {prop:"name",tag:"姓名",type:"label"},
-              {prop:"sex",tag:"性别",type:"label"},
-              {prop:"age",tag:"年龄",type:"label"},
-              {prop:"birth",tag:"生日",type:"label"},
-              {prop:"avatar",tag:"头像",type:"img"}
+              {prop:"carId",tag:"汽车ID",type:"label"},
+              {prop:"carName",tag:"车名",type:"label",edit:true},
+              {prop:"price",tag:"价格",type:"label",edit:true},
+              {prop:"image",tag:"预览图",type:"img"},
+              {prop:"evaluation",tag:"评价",type:"label"},
+              {prop:"brand",val:"brandName",tag:"品牌",type:"label"},
             ],
             expand:[
-              {prop:"addr",tag:"地址",type:"label"}
+              {prop:"param",val:'carSize',tag:"车身尺寸",type:"label",add:true,edit:true},
+              {prop:"param",val:'engine',tag:"发动机",type:"label",add:true,edit:true},
+              {prop:"param",val:'level',tag:"级别",type:"label",add:true,edit:true},
+              {prop:"param",val:'structure',tag:"车身结构",type:"label",add:true,edit:true},
+              {prop:"param",val:'assurance',tag:"整车质保",type:"label",add:true,edit:true},
+              {prop:"param",val:'oilWear',tag:"油耗",type:"label",add:true,edit:true},
+              {prop:"param",val:'manufacturer',tag:"厂商",type:"label",add:true,edit:true},
+              {prop:"param",val:'gearbox',tag:"变速箱",type:"label",add:true,edit:true},
+              {prop:"param",val:'maxSpeed',tag:"最高车速",type:"label",add:true,edit:true},
+
             ]
           },
           {
@@ -107,9 +130,6 @@
           },
         ],
       }
-    },
-    mounted() {
-      console.log(this.data[1].spread[2].val)
     }
   }
 </script>

@@ -24,6 +24,8 @@ import 'font-awesome/css/font-awesome.css';
 
 import * as filters from './filters' // global filters
 
+import {checkUser} from "./api/user";
+
 Vue.config.productionTip = false
 Vue.directive(anchor)
 Vue.use(permission)
@@ -44,5 +46,12 @@ new Vue({
   store,
   /*components: { App },
   template: '<App/>'*/
-  render: h => h(App)
+  render: h => h(App),
+  mounted(){
+    if(store.getters.token)
+      store.dispatch("CheckSession")
+    window.addEventListener("beforeunload",e=>{
+      /*store.dispatch("LogOut")*/
+    })
+  }
 })

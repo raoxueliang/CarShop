@@ -68,14 +68,15 @@
     <!--编辑界面-->
     <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
       <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-        <el-form-item v-for="o in dataType" :label="o.tag" :prop="o.prop" :key="o.prop">
-          <el-input v-if="o.type==='input'" v-model="editForm[o.prop]"></el-input>
-          <el-upload v-else-if="o.type==='img'" action=""
+        <el-form-item v-for="o in dataType" v-if="o.edit" :label="o.tag" :prop="o.val?o.val:o.prop" :key="o.val?o.val:o.prop">
+          <el-input v-if="o.val" v-model="editForm[o.val]"></el-input>
+          <el-input v-else v-model="editForm[o.prop]"></el-input>
+          <!--<el-upload v-else-if="o.type==='img'" action=""
                      class="avatar-upload"
                      list-type="picture">
             <img width="50px" v-if="editForm[o.prop]" :src="serverAvatarUrl(editForm[o.prop])" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          </el-upload>-->
           <label v-else-if="o.type==='label'">{{editForm[o.prop]}}</label>
         </el-form-item>
       </el-form>
@@ -88,7 +89,7 @@
     <!--新增界面-->
     <el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
       <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-        <el-form-item v-for="o in addFormItem" :label="o.tag" :prop="o.val?o.val:o.prop" :key="o.val?o.val:o.prop">
+        <el-form-item v-for="o in dataType" v-if="o.add" :label="o.tag" :prop="o.val?o.val:o.prop" :key="o.val?o.val:o.prop">
           <el-input v-if="o.val" v-model="addForm[o.val]"></el-input>
           <el-input v-else v-model="addForm[o.prop]"></el-input>
         </el-form-item>
@@ -172,7 +173,7 @@
       //显示新增界面
       handleAdd() {
         this.addFormVisible = true;
-        this.addForm = dataAdd[this.addObject];
+        this.addForm = dataAdd[this.addObject]();
       },
       //显示编辑界面
       handleEdit(index, row) {
@@ -356,13 +357,6 @@
       this.dataType=uniqueTableProp(this.dataType)
       if(this.getFuc!=="")
         this.getData()
-    },
-    computed:{
-      addFormItem(){
-        return this.dataType.filter(item=>{
-          return item.add
-        })
-      }
     }
   }
 </script>

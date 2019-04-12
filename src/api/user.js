@@ -107,3 +107,13 @@ export function checkCorrectSecret(id,option,secret) {
     }
   })
 }
+
+export function checkSession() {
+  return request({
+    url: '/user/checkSession',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+  })
+}

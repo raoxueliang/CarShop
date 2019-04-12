@@ -1,4 +1,4 @@
-import { loginById, logout, getUserInfo } from '@/api/user'
+import { loginById, logout, getUserInfo,checkSession } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import {register} from "@/api/user";
 import {baseUrl} from "../../api";
@@ -177,12 +177,19 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit('CLEAR_USER',false)
-        removeToken('token')
+        commit('SET_STATUS',false)
         resolve()
       })
     },
 
+    CheckSession({ commit }) {
+      return new Promise(resolve => {
+        checkSession().then(data=>{
+          commit('SET_STATUS',true)
+        })
+        resolve()
+      })
+    },
     // 动态修改权限
     /*ChangeRoles({ commit, dispatch }, role) {
       return new Promise(resolve => {
