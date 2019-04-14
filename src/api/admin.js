@@ -46,7 +46,7 @@ export function addUser(data) {
 
 export function getBrandListPage(data) {
   return request({
-    url: '/admin/getBrandListPage',
+    url: '/brands/getBrandListPage',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ export function getBrandListPage(data) {
 
 export function editBrand(data) {
   return request({
-    url: '/admin/editBrand',
+    url: '/brands/editBrand',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ export function editBrand(data) {
 
 export function removeBrand(data) {
   return request({
-    url: '/admin/removeBrand',
+    url: '/brands/removeBrand',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ export function removeBrand(data) {
 
 export function addBrand(data) {
   return request({
-    url: '/admin/addBrand',
+    url: '/brands/addBrand',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
@@ -134,56 +134,81 @@ export function getCarListPage(data) {
 
 export function editCar(data) {
   return request({
-    url: '/admin/editUser',
-    method: 'get',
-    data
+    url: '/cars/editCar',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 
 export function removeCar(data) {
   return request({
-    url: '/admin/removeUser',
-    method: 'get',
-    data
+    url: '/cars/removeCar',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 
 export function addCar(data) {
+
   return request({
-    url: '/admin/addUser',
-    method: 'get',
-    data
+    url: '/cars/addCar',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 
 export function getOrderListPage(data) {
   return request({
-    url: '/admin/getOrderListPage',
-    method: 'get',
-    data
+    url: '/order/getOrderListPage',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 
 export function editOrder(data) {
   return request({
-    url: '/admin/editUser',
-    method: 'get',
-    data
+    url: '/order/editOrder',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:{
+      orderId:data.orderId,
+      orderStatus:data.orderStatus
+    }
   })
 }
 
 export function removeOrder(data) {
   return request({
-    url: '/admin/removeUser',
-    method: 'get',
-    data
+    url: '/order/removeOrder',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }
 
 export function addOrder(data) {
   return request({
-    url: '/admin/addUser',
-    method: 'get',
-    data
+    url: '/order/addOrder',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
   })
 }

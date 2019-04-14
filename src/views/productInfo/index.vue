@@ -141,9 +141,9 @@
     mounted () {
       window.addEventListener('scroll', this.handleScroll)
       this.offsetTop=document.querySelector('#sideBar').offsetTop
-      getCarInfo(this.$route.params.id).then(data=>{
+      /*getCarInfo(this.$route.params.id).then(data=>{
         this.productInfo=data
-      })
+      })*/
     },
   }
 </script>

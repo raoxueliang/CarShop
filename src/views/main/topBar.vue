@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {getHotSearch,searchByText} from "@/api/search";
+import {getHotSearch,searchByText} from "@/api/car";
 import {goToElement} from '@/utils'
 
 export default {
@@ -123,7 +123,7 @@ export default {
     querySearchAsync(queryString, cb) {
       let searchSuggest = this.searchSuggestions;
       searchSuggest=this.unique(searchSuggest)
-      if(searchSuggest[0].value!="无结果..."&&queryString){
+      if(searchSuggest[0].value!=="无结果..."&&queryString){
         searchSuggest =  searchSuggest.filter(this.createStateFilter(queryString))  ;
       }
       //实现加载效果

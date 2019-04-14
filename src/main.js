@@ -52,7 +52,7 @@ new Vue({
       store.dispatch("CheckSession")
     window.addEventListener("beforeunload",e=>{
       if(getToken('token'))
-        store.dispatch("FedLogOut")
+        store.dispatch("SessionLogOut")
     })
   }
 })

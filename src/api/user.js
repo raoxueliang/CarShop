@@ -16,15 +16,12 @@ export function loginById(id, password,role) {
   })
 }
 
-export function loginByToken(token){
+export function loginByToken(){
   return request({
     url: '/user/login',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
-    },
-    data: {
-      token:token
     }
   })
 }

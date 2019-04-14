@@ -340,6 +340,8 @@ export function unique(arr) {
 export  function showPermission(authority,role,tempRoles){
   if(!authority)
     return true
+  if(role==='')
+    return false
   if(tempRoles && tempRoles.length>0){
     role="admin"
   }

@@ -175,6 +175,9 @@
         this.area=tempLoc.slice(0,3)
         this.areaLoc=tempLoc[3]
       }
+      if(Object.keys(this.$route.params).length!==0){
+        this.tabNow=this.$route.params.data
+      }
     }
   }
 </script>

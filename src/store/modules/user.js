@@ -24,13 +24,13 @@ const user = {
         state.name = info.data.name===null?"User":info.data.name
         state.sex = info.data.sex
         state.loc = info.data.loc
-        state.avatar = info.data.avatar===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+"/UserAvatar/"+info.data.avatar
+        state.avatar = info.data.avatar===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+info.data.avatar
       }
       else if(info.role==='admin' || info.role==='superAdmin'){
         state.id = info.data.shopId
         state.name = info.data.shopName===null?"admin":info.data.shopName
         state.brandId=info.data.brand.brandId
-        state.avatar = info.data.brand.logo===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+"/UserAvatar/"+info.data.brand.logo
+        state.avatar = info.data.brand.logo===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+info.data.brand.logo
       }
       state.token = info.data.token
       state.phone = info.data.phone
@@ -76,7 +76,7 @@ const user = {
     //用户信息状态初始化
     UserInfoInit({commit}){
       return new Promise(resolve => {
-        commit('CLEAR_USER',false)
+        commit('CLEAR_USER')
         resolve()
       })
     },
@@ -84,12 +84,11 @@ const user = {
     loginById({ commit }, loginInfo) {
       const id = loginInfo.id.trim()
       return new Promise((resolve, reject) => {
-        let err=""
         loginById(id, loginInfo.encryptPassword,loginInfo.role).then(data => {
           if(data.code===401)
-            err="用户名或密码错误"
+            reject("用户名或密码错误")
           else if(data.code===402)
-            err="用户名不存在"
+            reject("用户名不存在")
           else if(data.code===400){
             commit('SET_USER',data)
             setToken('token',data.data.token)
@@ -103,7 +102,7 @@ const user = {
               removeToken('role')
             }
           }
-          resolve(err)
+          resolve()
         }).catch(error => {
           reject(error)
         })
@@ -113,9 +112,8 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        loginByToken(state.token).then(data => {
+        loginByToken().then(data => {
           // 由于mockjs 不支持自定义状态码只能这样hack
-          console.log(data)
           if (!data) {
             reject('Verification failed, please login again.')
           }
@@ -132,7 +130,7 @@ const user = {
       return new Promise((resolve, reject) => {
         register(username, userInfo.password).then(data => {
           commit('SET_USER',data)
-          setToken('token',data .token)
+          setToken('token',data.data.token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -147,19 +145,6 @@ const user = {
         resolve()
       })
     },
-    // 第三方验证登录
-    // LoginByThirdparty({ commit, state }, code) {
-    //   return new Promise((resolve, reject) => {
-    //     commit('SET_CODE', code)
-    //     loginByThirdparty(state.status, state.email, state.code).then(response => {
-    //       commit('SET_TOKEN', response.data.token)
-    //       setToken(response.data.token)
-    //       resolve()
-    //     }).catch(error => {
-    //       reject(error)
-    //     })
-    //   })
-    // },
 
     // 登出
     LogOut({ commit, state }) {
@@ -178,6 +163,15 @@ const user = {
 
     // 前端 登出
     FedLogOut({ commit }) {
+      return new Promise(resolve => {
+        commit('CLEAR_USER')
+        removeToken('token')
+        resolve()
+      })
+    },
+
+    // 前端 登出
+    SessionLogOut({ commit }) {
       return new Promise(resolve => {
         logout().then(data=>{
           commit('SET_STATUS',false)
