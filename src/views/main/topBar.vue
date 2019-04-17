@@ -29,10 +29,10 @@
                 </i>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                    <el-button type="text">我的</el-button>
+                    <el-button type="text" @click="toPage('My')">我的</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button v-if="loginUser.role!=='normal'" type="text" @click="toAdmin">管理</el-button>
+                    <el-button v-if="loginUser.role!=='normal'" type="text" @click="toPage('admin')">管理</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button type="text" @click="logoutProps.show=true" style="color: #f78989">注销</el-button>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import {getHotSearch,searchByText} from "@/api/car";
+import {getHotSearch,searchByText,queryStringByText} from "@/api/car";
 import {goToElement} from '@/utils'
 
 export default {
@@ -113,8 +113,8 @@ export default {
       }
   },
   methods:{
-    toAdmin(){
-      this.$router.push({name:'admin'});
+    toPage(name){
+      this.$router.push({name:name});
     },
     toRegister(){
       this.$router.push({name:'Register'});
@@ -160,18 +160,16 @@ export default {
     //TODO:加载热门搜索
     loadSearchSuggestion(){
       getHotSearch().then(response =>{
-        let temp=[]
-        response.data.data.forEach(ob => {
-          let o={'value':ob['text']}
-          temp.push(o)
+        let searchArray=[];
+        response.forEach(ob => {
+          searchArray.push({value:ob['carName']})
         })
-        this.searchSuggestions=temp;
+        this.searchSuggestions=searchArray
       })
     }
   },
   mounted(){
-    /*this.loadSearchSuggestion();*/
-    /*this.searchText=this.searchSuggestions[0,3];*/
+    this.loadSearchSuggestion();
   },
   watch:{
     //监控搜索框的内容
@@ -180,19 +178,17 @@ export default {
       if(this.searchText===''){
         this.loadSearchSuggestion()
       }else {
-        let searchArray=new Array();
-        searchByText(this.searchText).then(response=>{
-            if(!response.data){
-              searchArray.push({value:'无结果...'})
-            }else{
-              response.data.forEach(ob=>{
-                let o={'value':ob['text']}
-                searchArray.push(o)
-              })
-            }
+        let searchArray=[];
+        queryStringByText(this.searchText).then(response=>{
+          if(response.length!==0){
+            response.forEach(item=>{
+              searchArray.push({value: item})
+            })
             this.searchSuggestions=searchArray
-            //console.log(this.searchSuggestions);
-          });
+          }else {
+            this.searchSuggestions=[{value:'无结果...'}]
+          }
+        });
       }
     }
   },

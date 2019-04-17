@@ -4,7 +4,7 @@
       <show-normal v-show="active==='-1'"></show-normal>
     </transition>
     <transition name="el-zoom-in-center" v-for="(o,index) in data" :key="index+1">
-      <show-table ref="adminTable" :searchText="o.searchText" :addFormRules="o.addRules" :editFormRules="o.editRules"  :tableType="o.type" :tableKey="o.key" :dataSpread="o.spread" :dataExpand="o.expand" class="table" v-if="loginRole==='superAdmin'?true:o.showAdmin"  v-show="active===index.toString()"></show-table>
+      <show-table ref="adminTable" :searchText="o.searchText" :addFormRules="o.addRules" :editFormRules="o.editRules"  :tableType="o.type" :tableKey="o.key" :dataSpread="o.spread" :dataExpand="o.expand" @switchTable="switchTable" @goBackTemp="goBackTemp" class="table" v-if="loginRole==='superAdmin'?true:o.showAdmin"  v-show="tempActive==='0'?active===index.toString():tempActive===index.toString()"></show-table>
     </transition>
   </div>
 </template>
@@ -25,6 +25,7 @@
     },
     data(){
       return{
+        tempActive:'0',
         /*数据
         * type:表数据类型
         * key:主键
@@ -149,7 +150,34 @@
             expand:[],
             searchText:'订单号'
           },
+          {
+            type:"Evaluation",
+            key:["evaId"],
+            showAdmin:true,
+            spread:[
+              {prop:"evaId",tag:"订单ID",type:"label"},
+              {prop:"grade",tag:"评分",type:"label"},
+              {prop:"evaluate",tag:"评价内容",type:"label"},
+              {prop:"evaTime",tag:"评论时间",type:"label"},
+            ],
+            expand:[],
+            searchText:'订单号'
+          },
         ],
+      }
+    },
+    methods:{
+      switchTable(data){
+        if(data.table==='evaluation'){
+          this.tempActive='5'
+          if(this.loginRole==='superAdmin')
+            this.$refs.adminTable['5'].getData(data.carId)
+          else if(this.loginRole==='admin')
+            this.$refs.adminTable['2'].getData(data.carId)
+        }
+      },
+      goBackTemp(){
+        this.tempActive='0'
       }
     },
     computed:{
@@ -159,8 +187,13 @@
     },
     watch:{
       active(val){
-        if(val!=='-1')
-          this.$refs.adminTable[val].getData()
+        this.tempActive='0'
+        if(val!=='-1'){
+          if(this.loginRole==='superAdmin')
+            this.$refs.adminTable[val].getData()
+          else if(this.loginRole==='admin')
+            this.$refs.adminTable[val-3].getData()
+        }
       }
     }
   }

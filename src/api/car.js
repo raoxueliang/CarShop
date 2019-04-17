@@ -13,15 +13,15 @@ export function checkCarId(data) {
   })
 }
 
-export function getCarInfo(productId) {
+export function getCarInfo(carId) {
   return request({
-    url: '/car/get',
+    url: '/cars/getCarInfo',
     method: 'post',
     headers:{
       'Content-Type': 'application/json'
     },
     data:{
-      pId:productId
+      carId:carId
     }
   })
 }
@@ -42,7 +42,7 @@ export function search(query) {
 export function getHotSearch() {
   return request({
     url: '/cars/getHotSearch',
-    method: 'get',
+    method: 'post',
     headers:{
       'Content-Type': 'application/json'
     },
@@ -57,7 +57,20 @@ export function searchByText(text) {
       'Content-Type': 'application/json'
     },
     data:{
-      queryString:text
+      text:text
+    }
+  })
+}
+
+export function queryStringByText(text) {
+  return request({
+    url: '/cars/queryStringByText',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:{
+      text:text
     }
   })
 }

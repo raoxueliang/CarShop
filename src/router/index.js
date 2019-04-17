@@ -30,14 +30,14 @@ export const constantRouterMap = [
             component: resolve => require(["@/views/searchResult"], resolve),
           },
           {
-            path:'/product/:id',
-            name:'Goods',
+            path:'/car/:id',
+            name:'Car',
             components:{
               'default':resolve => require(["@/views/productInfo"], resolve),
             }
           },
           {
-            path:'/shop/:id',
+            path:'/shop/:shopId',
             name:'Shop',
             components:{
               'default':resolve => require(["@/views/shop"], resolve),

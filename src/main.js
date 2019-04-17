@@ -13,7 +13,7 @@ import scroll from './directive/scroll'
 import "animate.css/animate.min.css";
 
 /*import './mock' // simulation data*/
-import './permission' //
+import './permission'
 import './icons' // icon
 
 

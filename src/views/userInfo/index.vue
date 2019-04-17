@@ -62,6 +62,21 @@
             <el-button type="primary"  @click="resetForm('password')" >重置</el-button>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="设置密保" name="secret" v-if="haveSecret">
+          <el-form :model="secretData" :rules="secretRule" ref="secret" :label-width="formLabelWidth" status-icon label-position="left">
+            <template v-for="(o,index) in secretData.secret">
+              <el-form-item label="密保问题:" :prop="'secret['+index+'].question'">
+                <el-select v-model="o.question" placeholder="请选择" style="width: 475px;">
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="密保答案:" :prop="'secret['+index+'].answer'">
+                <el-input placeholder="请输入密保答案" v-model="o.answer" style="width: 475px;float: left"></el-input>
+              </el-form-item>
+            </template>
+          </el-form>
+          <el-button round type="primary" @click="submitAddSecret">提交</el-button>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -69,8 +84,10 @@
 <script>
   import { pca, pcaa } from "area-data";
   import {baseUrl} from "../../api";
-  import {avatarUpload} from "@/api/user";
+  import {avatarUpload,changePassword} from "@/api/user";
   import rule from "@/utils/rule";
+  import {encryptMd5} from "@/utils/encrypt";
+  import {setSecret,checkHaveSecret} from "@/api/security";
 
   export default {
     data(){
@@ -104,7 +121,31 @@
         },
         avatarUploadUrl:baseUrl+'/user/avatar',
         avatarFlag:false,
-        avatarPercentage:0
+        avatarPercentage:0,
+        haveSecret:false,
+        secretData:{
+          secret:[
+            {question:null,answer:''},
+            {question:null,answer:''},
+            {question:null,answer:''}
+          ]
+        },
+        secretRule:{
+          'secret[0].question':rule.Question,
+          'secret[1].question':rule.Question,
+          'secret[2].question':rule.Question,
+          'secret[0].answer':rule.Answer,
+          'secret[1].answer':rule.Answer,
+          'secret[2].answer':rule.Answer,
+        },
+        options:[
+          {value:0, label:'您初中班主任的名字是？'},
+          {value:1, label:'您的出生地是？'},
+          {value:2, label:'您的学号（或工号）是？'},
+          {value:3, label:'您父亲的生日是？'},
+          {value:4, label:'您高中班主任的名字是？'},
+          {value:5, label:'您母亲的生日是？'},
+          {value:6, label:'您小学班主任的名字是？'}],
       }
     },
     methods:{
@@ -146,7 +187,18 @@
       submitPassForm(){
         this.$refs['password'].validate((valid) => {
           if (valid) {
-            console.log(this.changePwd)
+            this.$store.dispatch("updatePassword",{old:encryptMd5(this.changePwd.old),new:encryptMd5(this.changePwd.new)}).then(msg=>{
+              this.$message.success({
+                message: msg,
+                showClose:true
+              })
+            }).catch(err=>{
+              this.$message.error({
+                message: err,
+                showClose:true
+              })
+            })
+            this.$refs['password'].resetFields()
           } else {
             console.log('error submit!!');
             return false;
@@ -161,6 +213,18 @@
           this.areaLoc=tempLoc[3]
         }
         this.$refs[formName].resetFields();
+      },
+      submitAddSecret(){
+        setSecret(this.userInfo.id,this.secretData.secret).then(response=>{
+          if(response==='success'){
+            this.$message.success({
+              message:'修改成功',
+              showClose:false
+            })
+            this.$refs['secret'].resetFields();
+            this.haveSecret=false;
+          }
+        })
       }
     },
     computed:{
@@ -178,6 +242,12 @@
       if(Object.keys(this.$route.params).length!==0){
         this.tabNow=this.$route.params.data
       }
+      checkHaveSecret(this.userInfo.id).then(response=>{
+        if(response==='success')
+          this.haveSecret=false
+        else
+          this.haveSecret=true
+      })
     }
   }
 </script>

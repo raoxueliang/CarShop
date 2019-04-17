@@ -1,6 +1,6 @@
-import { loginById,loginByToken, logout, getUserInfo,checkSession } from '@/api/user'
+import { loginById,loginByToken, logout, getUserInfo,checkSession,changePassword, register} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import {register} from "@/api/user";
+import {changePasswordBySecret} from "@/api/security";
 import {baseUrl} from "../../api";
 
 const user = {
@@ -35,6 +35,24 @@ const user = {
       state.token = info.data.token
       state.phone = info.data.phone
       state.role = info.role
+      state.status = true
+    },
+    UPDATE_USER:(state,user)=>{
+      if(state.role==='normal'){
+        state.id=user.id
+        state.name = user.name===null?"User":user.name
+        state.sex = user.sex
+        state.loc = user.loc
+        state.avatar = user.avatar===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+user.avatar
+      }
+      else if(state.role==='admin'||state.role==='superAdmin'){
+        state.id = user.shopId
+        state.name = user.shopName===null?"admin":user.shopName
+        state.brandId=user.brand.brandId
+        state.avatar = user.brand.logo===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+user.brand.logo
+      }
+      state.token = user.token
+      state.phone = user.phone
       state.status = true
     },
     SET_ID: (state, id) => {
@@ -143,6 +161,40 @@ const user = {
       return new Promise(resolve => {
         commit('SET_AVATAR',baseUrl+avatar)
         resolve()
+      })
+    },
+
+    //更改密码
+    updatePassword({commit},changPwd){
+      return new Promise((resolve,reject) => {
+        changePassword(changPwd.old,changPwd.new).then(response=>{
+          if(response){
+            commit('UPDATE_USER',response)
+            setToken('token',response.token)
+            resolve("修改成功")
+          }
+          else
+            reject("修改失败")
+        }).catch(err=>{
+          reject(err)
+        })
+      })
+    },
+
+    //忘记密码验证密保更改密码并登陆
+    updatePasswordBySecret({commit},changPwd){
+      return new Promise((resolve,reject) => {
+        changePasswordBySecret(changPwd.id,changPwd.password).then(response=>{
+          if(response){
+            commit('SET_USER',response)
+            setToken('token',response.data.token)
+            resolve("修改成功")
+          }
+          else
+            reject("修改失败")
+        }).catch(err=>{
+          reject(err)
+        })
       })
     },
 

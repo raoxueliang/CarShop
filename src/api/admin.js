@@ -212,3 +212,25 @@ export function addOrder(data) {
     data:data
   })
 }
+
+export function getEvaluationListPage(data) {
+  return request({
+    url: '/evaluation/getEvaluationListPage',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
+  })
+}
+
+export function removeEvaluation(data) {
+  return request({
+    url: '/evaluation/removeEvaluation',
+    method: 'post',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    data:data
+  })
+}

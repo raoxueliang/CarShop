@@ -113,6 +113,20 @@ let checkPrice=(rule,value,callback)=>{
     return callback()
 }
 
+let checkQuestion=(rule,value,callbacku  )=>{
+  if(value===null)
+    return callback(new Error("请选择密保问题"))
+  else
+    return callback()
+}
+
+let checkAnswer=(rule,value,callback)=>{
+  if(value==='')
+    return callback(new Error("请填写密保答案"))
+  else
+    return callback()
+}
+
 export default {
   ID:[
     {validator:checkId,trigger:['blur','change']}
@@ -144,5 +158,11 @@ export default {
   ],
   Price:[
     {validator:checkPrice,trigger:['blur','change']}
+  ],
+  Question:[
+    {validator:checkQuestion,trigger:['blur','change']}
+  ],
+  Answer:[
+    {validator:checkAnswer,trigger:['blur','change']}
   ]
 }

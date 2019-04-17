@@ -3,16 +3,17 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters">
-        <el-form-item>
+        <el-form-item style="float: left">
           <el-button v-if="this.$store.getters.tempRoles!==''" type="primary" @click="goBack">返回</el-button>
+          <el-button v-else-if="tableType==='Evaluation'" type="primary" @click="goBackTemp">返回</el-button>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="tableType!=='Evaluation'">
           <el-input v-model="filters.name" :placeholder="searchText"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item v-if="tableType!=='Evaluation'">
           <el-button type="primary" @click="getData">查询</el-button>
         </el-form-item>
-        <el-form-item v-if="tableType!=='Order'">
+        <el-form-item v-if="tableType!=='Order'&&tableType!=='Evaluation'">
           <el-button type="primary" @click="handleAdd">新增</el-button>
         </el-form-item>
       </el-form>
@@ -43,7 +44,13 @@
         </template>
       </el-table-column>
       <template v-for="o in dataSpread">
-        <el-table-column v-if="!o.val&&o.type==='label'||o.type==='input'" :prop="o.prop" :label="o.tag"></el-table-column>
+        <el-table-column v-if="!o.val&&o.prop==='evaluation'" :label="o.tag">
+          <div class="evaluation" slot-scope="scope">
+            <span>{{scope.row[o.prop]}}</span>
+            <el-button type="primary" @click="switchTable('evaluation',scope.row['carId'])">查看评价</el-button>
+          </div>
+        </el-table-column>
+        <el-table-column v-else-if="!o.val&&o.type==='label'" :prop="o.prop" :label="o.tag"></el-table-column>
         <el-table-column v-else-if="!o.val&&o.type==='img'" :prop="o.prop" :label="o.tag">
           <template slot-scope="scope">
             <img :src="serverAvatarUrl(scope.row[o.prop])" :alt="scope.row[o.prop]" style="width: 50px;height: 50px">
@@ -55,11 +62,11 @@
           </template>
         </el-table-column>
       </template>
-      <el-table-column label="操作" width="220" align="center" >
+      <el-table-column label="操作" width="220" align="center" v-if="loginUserRole!=='admin'||tableType!=='Evaluation'">
         <template slot-scope="scope">
           <el-button v-if="tableType==='Shop'" type="primary" size="mini" icon="el-icon-setting" @click="handleCheck(scope.$index, scope.row)">查看</el-button>
-          <el-button v-else type="primary" size="mini" icon="el-icon-setting" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+          <el-button v-else-if="tableType!=='Evaluation'" type="primary" size="mini" icon="el-icon-setting" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button  type="danger" size="small" icon="el-icon-delete" @click="handleDel(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -175,6 +182,12 @@
       }
     },
     methods: {
+      switchTable(tableName,carId){
+        this.$emit('switchTable',{table:tableName,carId:carId})
+      },
+      goBackTemp(){
+        this.$emit('goBackTemp')
+      },
       handleCurrentChange(val) {
         this.page = val;
         this.getData();
@@ -227,7 +240,7 @@
           }
         });
       },
-      getData(){
+      getData(carId){
         this.listLoading = true;
         //NProgress.start();
         let para = {
@@ -239,6 +252,8 @@
             para["shopId"]=this.$store.getters.tempRoles
           else
             para["shopId"]=this.$store.getters.id
+        }else if(this.tableType==='Evaluation'){
+          para['carId']=carId
         }
         dataFunc[this.getFuc](para).then((data) => {
           this.total = data.total;
@@ -321,18 +336,17 @@
       },
       //批量删除
       batchRemove() {
-        let para=[]
-        this.selItems.forEach(item=>{
-          let itemPara={}
-          this.tableKey.forEach((key)=>{
-            itemPara[key]=item[key]
-          })
-          para.push(itemPara)
-        })
-        let ids = this.selItems.map(item => item.id).toString();
         this.$confirm('确认删除选中记录吗？', '提示', {
           type: 'warning'
         }).then(() => {
+          let para=[]
+          this.selItems.forEach(item=>{
+            let itemPara={}
+            this.tableKey.forEach((key)=>{
+              itemPara[key]=item[key]
+            })
+            para.push(itemPara)
+          })
           this.listLoading = true;
           dataFunc[this.removeFuc](para).then((res) => {
             if(res==='success'){
@@ -377,11 +391,32 @@
       this.dataType=uniqueTableProp(this.dataType)
       /*if(this.getFuc!=="")
         this.getData()*/
+    },
+    computed:{
+      loginUserRole(){
+        return this.$store.getters.role
+      }
     }
   }
 </script>
 
 <style lang="less" scoped>
+  .evaluation{
+    span{
+      display: block;
+    }
+    button{
+      display: none;
+    }
+    &:hover{
+      span{
+        display: none;
+      }
+      button{
+        display: block;
+      }
+    }
+  }
   .toolbar{
     position: relative;
     &>button{

@@ -7,8 +7,8 @@ import 'nprogress/nprogress.css'// progress bar style
 
 NProgress.configure({ showSpinner: false })// NProgress Configuration
 
-const NoLogin=['/home','/search','/register','/forgot','/product']
-const LoginNormal=['/home', '/search','/product','/user','/balance','/updateUser','my']
+const NoLogin=['/home','/search','/register','/forgot','/car']
+const LoginNormal=['/home', '/search','/car','/user','/balance','/updateUser','my']
 const LoginAdmin=['/admin','/shop','/updateUser']
 const whiteList = ['/home','/401','/404','/shop']//  白名单
 const blackList= ['/user','/balance','/admin'] //未登录黑名单
