@@ -1,7 +1,10 @@
 import { loginById,loginByToken, logout, getUserInfo,checkSession,changePassword, register} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import {changePasswordBySecret} from "@/api/security";
-import {baseUrl} from "../../api";
+import {setSecret,changePasswordBySecret,checkHaveSecret} from "@/api/security";
+import {baseUrl} from "@/api";
+import {editUser} from "@/api/admin";
+
+const defaultAvatar=baseUrl+'/UserAvatar/default_avatar.png'
 
 const user = {
   state: {
@@ -15,6 +18,7 @@ const user = {
     avatar: '',
     brandId:'',
     status: false,
+    secretStatus:false
   },
 
   mutations: {
@@ -24,13 +28,13 @@ const user = {
         state.name = info.data.name===null?"User":info.data.name
         state.sex = info.data.sex
         state.loc = info.data.loc
-        state.avatar = info.data.avatar===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+info.data.avatar
+        state.avatar = info.data.avatar===null?defaultAvatar:baseUrl+info.data.avatar
       }
       else if(info.role==='admin' || info.role==='superAdmin'){
         state.id = info.data.shopId
         state.name = info.data.shopName===null?"admin":info.data.shopName
         state.brandId=info.data.brand.brandId
-        state.avatar = info.data.brand.logo===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+info.data.brand.logo
+        state.avatar = info.data.brand.logo===null?defaultAvatar:baseUrl+info.data.brand.logo
       }
       state.token = info.data.token
       state.phone = info.data.phone
@@ -43,20 +47,33 @@ const user = {
         state.name = user.name===null?"User":user.name
         state.sex = user.sex
         state.loc = user.loc
-        state.avatar = user.avatar===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+user.avatar
+        state.avatar = user.avatar===null?defaultAvatar+'':user.avatar
       }
       else if(state.role==='admin'||state.role==='superAdmin'){
         state.id = user.shopId
         state.name = user.shopName===null?"admin":user.shopName
         state.brandId=user.brand.brandId
-        state.avatar = user.brand.logo===null?"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif":baseUrl+user.brand.logo
+        state.avatar = user.brand.logo===null?defaultAvatar:user.brand.logo
       }
       state.token = user.token
       state.phone = user.phone
       state.status = true
     },
+    UPDATE_USER_INFO:(state,user)=>{
+      if(state.role==='normal'){
+        state.name = user.name===null?"User":user.name
+        state.sex = user.sex
+        state.loc = user.loc
+      }
+      else if(state.role==='admin'||state.role==='superAdmin'){
+        state.name = user.shopName===null?"admin":user.shopName
+      }
+    },
     SET_ID: (state, id) => {
       state.id = id
+    },
+    SET_SECRET_STATUS:(state,status)=>{
+      state.secretStatus=status
     },
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -108,6 +125,13 @@ const user = {
           else if(data.code===402)
             reject("用户名不存在")
           else if(data.code===400){
+            if(data.role==='admin'||data.role==='superAdmin')
+              commit('SET_SECRET_STATUS',true)
+            else {
+              checkHaveSecret(id).then(response=>{
+                commit('SET_SECRET_STATUS',response==='success')
+              })
+            }
             commit('SET_USER',data)
             setToken('token',data.data.token)
             if(loginInfo.radio==='1'){
@@ -136,6 +160,13 @@ const user = {
             reject('Verification failed, please login again.')
           }
           commit('SET_USER', data)
+          if(data.role==='admin'||data.role==='superAdmin')
+            commit('SET_SECRET_STATUS',true)
+          else {
+            checkHaveSecret(id).then(response=>{
+              commit('SET_SECRET_STATUS',response==='success')
+            })
+          }
           resolve()
         }).catch(error => {
           reject(error)
@@ -148,6 +179,7 @@ const user = {
       return new Promise((resolve, reject) => {
         register(username, userInfo.password).then(data => {
           commit('SET_USER',data)
+          commit('SET_SECRET_STATUS',false)
           setToken('token',data.data.token)
           resolve()
         }).catch(error => {
@@ -159,7 +191,7 @@ const user = {
     //更新用户头像
     updateUserAvatar({commit},avatar){
       return new Promise(resolve => {
-        commit('SET_AVATAR',baseUrl+avatar)
+        commit('SET_AVATAR',avatar)
         resolve()
       })
     },
@@ -177,6 +209,32 @@ const user = {
             reject("修改失败")
         }).catch(err=>{
           reject(err)
+        })
+      })
+    },
+
+    //修改用户信息
+    updateUserInfo({commit},changeUser){
+      return new Promise((resolve,reject) => {
+        editUser(changeUser).then(response=>{
+          if(response==='success'){
+            commit('UPDATE_USER_INFO',changeUser)
+            resolve('修改成功')
+          }
+          else
+            reject('修改失败，请稍后重试')
+        })
+      })
+    },
+
+    setSecret({commit,state},secret){
+      return new Promise((resolve,reject) => {
+        setSecret(state.id,secret).then(response=>{
+          if(response==='success'){
+            resolve('修改成功')
+            commit('SET_SECRET_STATUS',true)
+          }else
+            reject('修改失败，请稍后重试')
         })
       })
     },

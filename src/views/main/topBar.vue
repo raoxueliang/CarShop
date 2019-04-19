@@ -28,11 +28,11 @@
                   {{loginUser.name}}
                 </i>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>
-                    <el-button type="text" @click="toPage('My')">我的</el-button>
+                  <el-dropdown-item v-if="loginUser.role==='normal'">
+                    <el-button  type="text" @click="toPage('My')">我的</el-button>
                   </el-dropdown-item>
-                  <el-dropdown-item>
-                    <el-button v-if="loginUser.role!=='normal'" type="text" @click="toPage('admin')">管理</el-button>
+                  <el-dropdown-item v-else>
+                    <el-button type="text" @click="toPage('admin')">管理</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button type="text" @click="logoutProps.show=true" style="color: #f78989">注销</el-button>
@@ -119,7 +119,7 @@ export default {
     toRegister(){
       this.$router.push({name:'Register'});
     },
-    //TODO:实现搜索建议下拉的数据写入
+    //实现搜索建议下拉的数据写入
     querySearchAsync(queryString, cb) {
       let searchSuggest = this.searchSuggestions;
       searchSuggest=this.unique(searchSuggest)

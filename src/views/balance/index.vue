@@ -14,7 +14,7 @@
         <el-table :data="data">
           <el-table-column label="商品名称">
             <template slot-scope="scope">
-              <img :src="scope.row.img" width="90px" height="90px" style="float: left">
+              <img :src="getImagUrl(scope.row['car']['image']+'right.jpg')" width="90px" height="90px" style="float: left">
               <label style="font-size: 18px;display: inline-block;margin-left: 20px;padding-top: 30px">{{scope.row['car']['carName']}}</label>
             </template>
           </el-table-column>
@@ -26,7 +26,7 @@
           <el-table-column label="数量" prop="amount"></el-table-column>
         </el-table>
         <div class="order-info">
-          <label>付款:{{totalPrice}}元</label>
+          <label>付款:{{totalPrice.toFixed(2)}}万元</label>
           <label>寄送至:{{loginUser.loc}}</label>
           <label>收货人:{{loginUser.name}}</label>
           <el-button @click="onSubmit">提交订单</el-button>
@@ -59,6 +59,7 @@
   import {addOrder,changeOrderStatus} from "@/api/order";
   import {getEvaluationListPage,addEvaluation,editEvaluation} from "@/api/Evaluation";
   import {editOrder} from "@/api/admin";
+  import {strToUrlImage} from "@/utils";
 
   export default {
     name: "index",
@@ -117,6 +118,9 @@
       }
     },
     methods:{
+      getImagUrl(str){
+        return strToUrlImage(str)
+      },
       onSubmit(){
         let para=[]
         this.data.forEach(item=>{

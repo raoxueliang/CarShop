@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true" :model="filters">
@@ -256,6 +256,23 @@
           para['carId']=carId
         }
         dataFunc[this.getFuc](para).then((data) => {
+          if(this.tableType==='Brand')
+            data.data.forEach(item=>{
+              item['display']=item['display']+'display1.jpg'
+            })
+          else if(this.tableType==='Shop')
+            data.data.forEach(item=>{
+              item['brand']['display']=item['brand']['display']+'display1.jpg'
+            })
+          else if(this.tableType==='Car')
+            data.data.forEach(item=>{
+              item['image']=item['image']+'right.jpg'
+            })
+          else if(this.tableType==='User')
+            data.data.forEach(item=>{
+              if(item['avatar']===null)
+                item['avatar']='/UserAvatar/default_avatar.png'
+            })
           this.total = data.total;
           this.tableData = data.data;
           this.listLoading = false;

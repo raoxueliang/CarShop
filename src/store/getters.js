@@ -9,6 +9,7 @@ const getters = {
   token: state => state.user.token,
   avatar: state => state.user.avatar,
   status: state => state.user.status,
+  secretStatus:state => state.user.secretStatus,
   tempRoles: state => state.app.tempRoles,
   refreshCart: state => state.app.refreshCart,
   userSessions:state => state.chat.sessions.filter(session => session.user.name.includes(state.chat.filterKey)),

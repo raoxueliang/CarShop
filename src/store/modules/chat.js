@@ -1,6 +1,8 @@
 import {  getUserInfo } from '@/api/user'
 import {baseUrl} from "@/api";
 
+const defaultAvatar=baseUrl+'/UserAvatar/default_avatar.png'
+
 const now = new Date();
 const chat = {
   state: {
@@ -131,7 +133,7 @@ const chat = {
     ADD_SESSION(state,id){
       getUserInfo({id:id}).then(response => {
         console.log(typeof(response.role)==="undefined")
-        console.log(state.err)
+        console.log(response)
         if(typeof(response.role)==="undefined"){
           state.err='add:no user'
         }else{
@@ -149,7 +151,7 @@ const chat = {
             user:{
               id:response.role==='superAdmin'||response.role==='admin'?response.data.shopId:response.data.id,
               name:response.role==='superAdmin'||response.role==='admin'?response.data.shopName:response.data.name===null?'用户':response.data.name,
-              avatar:response.role==='superAdmin'||response.role==='admin'?baseUrl+response.data.brand.logo:response.data.avatar===null?'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif':baseUrl+response.data.avatar,
+              avatar:response.role==='superAdmin'||response.role==='admin'?(response.data.brand.logo===null?defaultAvatar:baseUrl+response.data.brand.logo):(response.data.avatar===null?defaultAvatar:baseUrl+response.data.avatar),
             },
             date:new Date(),
             unread:0,

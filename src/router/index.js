@@ -103,6 +103,11 @@ export const constantRouterMap = [
     component: resolve => require(["@/views/errorPage/401"], resolve),
   },
   {
+    path: '/402',
+    name:'402',
+    component: resolve => require(["@/views/errorPage/402"], resolve),
+  },
+  {
     path:'*',
     name:'404',
     component: resolve => require(["@/views/errorPage/404"], resolve),

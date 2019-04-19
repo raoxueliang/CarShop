@@ -21,8 +21,8 @@
         <div v-if="activeStep===1">
           <div v-for="(o,index) in newUser.secret">
             <el-form-item label="密保问题:" :prop="'secret['+index+'].question'">
-              <el-select v-model="o.question" placeholder="请选择" style="width: 350px">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              <el-select v-model="o.question" placeholder="请选择" style="width: 350px" @change="optionChange">
+                <el-option v-for="item in nowOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="密保答案:" :prop="'secret['+index+'].answer'">
@@ -101,32 +101,26 @@
             ]
           },
           user:{},
-          options:[{
-            value:0,
-            label:'您初中班主任的名字是？'
-          },{
-            value:1,
-            label:'您的出生地是？'
-          },{
-            value:2,
-            label:'您的学号（或工号）是？'
-          },{
-            value:3,
-            label:'您父亲的生日是？'
-          },{
-            value:4,
-            label:'您高中班主任的名字是？'
-          },{
-            value:5,
-            label:'您母亲的生日是？'
-          },{
-            value:6,
-            label:'您小学班主任的名字是？'
-          }],
+          options:[
+            {value:0, label:'您初中班主任的名字是？'},
+            {value:1, label:'您的出生地是？'},
+            {value:2, label:'您的学号（或工号）是？'},
+            {value:3, label:'您父亲的生日是？'},
+            {value:4, label:'您高中班主任的名字是？'},
+            {value:5, label:'您母亲的生日是？'},
+            {value:6, label:'您小学班主任的名字是？'}],
+          nowOptions:[],
           value:'',
         }
       },
       methods:{
+        optionChange(event){
+          let now=this.options
+          this.newUser.secret.forEach(item=>{
+            now=now.filter(optionItem=>optionItem.value!==item.question)
+          })
+          this.nowOptions=now
+        },
         firstToSecond(){
           this.$refs['form'].validate(valid=>{
               if(valid){
@@ -216,10 +210,10 @@
           }
         }
       },
-      computed:{
-
+      mounted() {
+        this.nowOptions=this.options
       }
-    }
+  }
 </script>
 
 <style lang="less" scoped>

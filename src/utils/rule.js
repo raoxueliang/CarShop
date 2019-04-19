@@ -113,7 +113,7 @@ let checkPrice=(rule,value,callback)=>{
     return callback()
 }
 
-let checkQuestion=(rule,value,callbacku  )=>{
+let checkQuestion=(rule,value,callback)=>{
   if(value===null)
     return callback(new Error("请选择密保问题"))
   else

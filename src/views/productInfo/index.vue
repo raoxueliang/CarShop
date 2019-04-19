@@ -71,7 +71,7 @@
           </table>
           <div class="item-text" style="margin-bottom: 50px">注：以上参数配置信息仅供参考，实际参数配置信息以经销商销售车辆为准，解释权归生产厂家所有。</div>
         </div>
-        <div id="anchor-evaluate" style="float:right;width:calc(100% - 220px);height: 1000px">
+        <div id="anchor-evaluate" style="float:right;width:calc(100% - 220px);min-height: 800px">
           <div class="header"><label>商品评价({{evaluateTotal}})</label></div>
           <ul>
             <li v-for="o in evaluations">

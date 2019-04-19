@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 20px">
-    <img src="../../assets/shop-header.jpeg" width="100%">
+    <img :src="getImage(brand.display+'bar.png')" width="100%">
     <div>
       <el-carousel id="pic-box" :interval="4000" type="card" height="300px" indicator-position="none">
         <el-carousel-item v-for="item in 3" :key="item">

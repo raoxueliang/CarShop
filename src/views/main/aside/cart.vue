@@ -1,17 +1,17 @@
 <template>
   <div class="main" style="">
     <el-scrollbar style="min-width: 300px" id="scrollbar-table">
-      <el-table :data="tableData" style="width: 300px;" @selection-change="selected">
+      <el-table :data="tableData" style="width: 300px;" @selection-change="selItemsChange">
         <!--选择方框-->
         <el-table-column type="selection" width="50"> </el-table-column>
         <!--显示商品信息-->
         <el-table-column label="商品名称" width="250">
           <template slot-scope="scope"><div style="position: relative">
-            <img :src="scope.row['car']['image']" :alt="scope.row['car']['image']" width="90px" height="90px" style="display: inline">
+            <img :src="getImagUrl(scope.row['car']['image']+'right.jpg')" :alt="scope.row['car']['image']" width="90px" height="90px" style="display: inline">
             <span style="font-size: 18px;position: absolute;top: 10px;left: 100px">{{scope.row['car']['carName']}}</span>
-            <span style="font-size: 18px;position: absolute;top: 30px;left: 100px;color: red;font-size: 13px">￥{{scope.row['car']['price']}}元</span><!--@change="handleChange"-->
+            <span style="font-size: 18px;position: absolute;top: 30px;left: 100px;color: red;font-size: 13px">￥{{scope.row['car']['price']}}万元</span><!--@change="handleChange"-->
             <el-button icon="el-icon-delete" type="text" style="position: absolute;top:0px;right: 10px" @click="handleDel(scope.$index, scope.row)"></el-button>
-            <el-input-number style="position: absolute;top:50px;left: 100px" size="mini" v-model="scope.row.amount"  :min="1" :max="10" label="描述文字"></el-input-number>
+            <el-input-number style="position: absolute;top:50px;left: 100px" size="mini" v-model="scope.row.amount"  :min="1" :max="10" label="描述文字" @change="countTotal"></el-input-number>
           </div></template>
         </el-table-column>
       </el-table>
@@ -20,7 +20,7 @@
       <div id="operate">
         <!--商品总价格-->
         <div id="totalInfo">
-          <label id="amount">已选{{amount}}件</label><label id="totalPrice">￥{{totalPrice}}</label>
+          <label id="amount">已选{{amount}}件</label><label id="totalPrice">￥{{totalPrice.toFixed(2)}}万元</label>
         </div>
         <div id="balance">
           <el-button type="danger" style="left: 0px" @click="batchRemove" :disabled="this.selItems.length===0">批量删除</el-button>
@@ -35,6 +35,7 @@
   import {getCartInfo} from "@/api/shoppingCart";
   import {getToken} from "@/utils/auth";
   import {removeCart} from "@/api/shoppingCart";
+  import {strToUrlImage} from "@/utils";
 
   export default {
     name: "ShopCart",
@@ -48,10 +49,13 @@
       }
     },
     methods:{
-      selected(val){
+      selItemsChange(sels) {
+        this.selItems = sels;
+      },
+      countTotal(){
         let totalGoods = 0;
         let totalPrice = 0;
-        for(let goods of val)
+        for(let goods of this.selItems)
         {
           totalGoods += 1;
           totalPrice += Number(goods.amount)* Number(goods.car.price);
@@ -132,6 +136,9 @@
 
         });
       },
+      getImagUrl(str){
+        return strToUrlImage(str)
+      }
     },
     computed:{
       loginUserId(){
@@ -153,6 +160,9 @@
       },
       refreshCart(val){
         this.getCart()
+      },
+      selItems(val){
+        this.countTotal()
       }
     }
   }

@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 const NoLogin=['/home','/search','/register','/forgot','/car']
 const LoginNormal=['/home', '/search','/car','/user','/balance','/updateUser','my']
 const LoginAdmin=['/admin','/shop','/updateUser']
-const whiteList = ['/home','/401','/404','/shop']//  白名单
+const whiteList = ['/home','/401','/402','/404','/shop']//  白名单
 const blackList= ['/user','/balance','/admin'] //未登录黑名单
 
 router.beforeEach((to, from, next) => {
@@ -33,21 +33,28 @@ router.beforeEach((to, from, next) => {
       })!==-1)
         next()
       else{
-        if(store.getters.role==='admin'||store.getters.role==='superAdmin'){
-          if(LoginAdmin.findIndex(item=>{
-            return to.path.indexOf(item)!==-1
-          })!==-1)
+        if(!store.getters.secretStatus||(store.getters.role==='normal'&&store.getters.loc==='')){
+          if (to.path.indexOf('/updateUser')!==-1||to.path.indexOf('my')!==-1||NoLogin.findIndex(item=>{return to.path.indexOf(item)!==-1})!==-1)
             next()
           else
-            next('/401')
-        }
-        else if(store.getters.role==='normal'){
-          if(LoginNormal.findIndex(item=>{
-            return to.path.indexOf(item)!==-1
-          })!==-1)
-            next()
-          else
-            next('/401')
+            next('/402')
+        }else{
+          if(store.getters.role==='admin'||store.getters.role==='superAdmin'){
+            if(LoginAdmin.findIndex(item=>{
+              return to.path.indexOf(item)!==-1
+            })!==-1)
+              next()
+            else
+              next('/401')
+          }
+          else if(store.getters.role==='normal'){
+            if(LoginNormal.findIndex(item=>{
+              return to.path.indexOf(item)!==-1
+            })!==-1)
+              next()
+            else
+              next('/401')
+          }
         }
       }
     }

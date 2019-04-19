@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import {encryptMd5} from "@/utils/encrypt";
 
 export function getUserListPage(data) {
   return request({
@@ -111,6 +112,7 @@ export function removeShop(data) {
 }
 
 export function addShop(data) {
+  data['password']=encryptMd5(data['shopId'])
   return request({
     url: '/admin/addShop',
     method: 'post',

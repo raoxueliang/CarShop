@@ -12,31 +12,14 @@
         <el-row >
           <!--显示分类列表-->
           <el-col :span="5" class="classify" :style="{backgroundImage:'url('+sideListBg+')'}">
-            <div class="classify-item">
-              <div style="height: 20%">
-                <span>品牌</span>
-                <!--<el-popover
-                  placement="right-start"
-                  width="200"
-                  trigger="hover">
-                  <span style="margin-left: 150px" slot="reference">更多<svg-icon icon-class="right"></svg-icon></span>
-                    <ul>
-                      <li v-for="i in 20">hhh</li>
-                    </ul>
-                </el-popover>-->
 
-              </div>
-              <ul>
-                <li v-for="o in brands" style="float: left;margin-left: 15px">{{o.brandName}}</li>
-              </ul>
-            </div>
             <div class="classify-item" >
               <div style="height: 20%">
                 <span>品牌</span>
               </div>
               <ul>
-                <li v-for="o in shops" style="float: left;margin-left: 15px">
-                  <router-link :to="o.link">
+                <li v-for="o in shops" style="float: left;margin-left: 30px">
+                  <router-link class="header-brand" :to="o.link">
                     {{o.short}}
                   </router-link>
                 </li>
@@ -230,6 +213,12 @@
 </script>
 
 <style lang="less" scoped>
+  .header-brand{
+    color: white;
+    :visited{
+      color: aquamarine;
+    }
+  }
   el-col{
     border: solid;
   }
