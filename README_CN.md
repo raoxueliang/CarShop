@@ -39,7 +39,7 @@
 ## 开发
 ```text
 # 克隆项目前端
-git clone -b browser https://github.com/lipese/CarShop.git
+git clone -b browser https://github.com/lamprose/CarShop.git
 
 # 安装依赖
 npm install
@@ -54,8 +54,8 @@ npm run dev
 
 我在开发过程遇到的一些问题以及解决方法，希望对你有所帮助：
 
-- [前后端跨域问题](https://lipese.github.io/development/vue-cros/)
-- [前端Token生成](https://lipese.github.io/development/vue-token/)
+- [前后端跨域问题](https://lamprose.github.io/development/vue-cros/)
+- [前端Token生成](https://lamprose.github.io/development/vue-token/)
 
 ## 截图
 
@@ -125,4 +125,4 @@ npm run dev
 
 ## 许可证
 [MIT](./LICENSE)  
-Copyright (c) 2017-present lipese
+Copyright (c) 2017-present lamprose

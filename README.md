@@ -40,7 +40,7 @@ This project has built the following templates, and have built a scaffold based 
 ## Getting started
 ```text
 # clone the project
-git clone -b browser https://github.com/lipese/CarShop.git
+git clone -b browser https://github.com/lamprose/CarShop.git
 
 # install dependency
 npm install
@@ -55,8 +55,8 @@ This will automatically open [http://localhost:8081](http://localhost:8081).
 
 I have encountered some problems in the development process and solutions, I hope it can help you:
 
-- [Front-end and Back-end CROS Problems](https://lipese.github.io/development/vue-cros/)
-- [Front-end Token Generation](https://lipese.github.io/development/vue-token/)
+- [Front-end and Back-end CROS Problems](https://lamprose.github.io/development/vue-cros/)
+- [Front-end Token Generation](https://lamprose.github.io/development/vue-token/)
 
 ## Screenshots
 
@@ -126,4 +126,4 @@ I have encountered some problems in the development process and solutions, I hop
 
 ## License
 [MIT](./LICENSE)  
-Copyright (c) 2017-present lipese
+Copyright (c) 2017-present lamprose
