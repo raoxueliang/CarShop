@@ -1,12 +1,7 @@
-[中文用户请点](https://github.com/lipses/CarShop/blob/master/README_CN.md)
-# CarShop
-A simple online automobile sales system which of Data Course Design in Junior
+[中文用户请点](./README_CN.md)
 
 # Browser
-Based on Vue.js+ElementUI [Source Code](https://github.com/lipses/CarShop/tree/browser)
-
-# Server
-Based on SpringBoot [Source Code](https://github.com/lipses/CarShop/tree/server)
+Based on Vue.js+ElementUI 
 
 ---
 ## Preparation
@@ -45,7 +40,7 @@ This project has built the following templates, and have built a scaffold based 
 ## Getting started
 ```text
 # clone the project
-git clone -b browser https://github.com/lipses/CarShop.git
+git clone -b browser https://github.com/lipese/CarShop.git
 
 # install dependency
 npm install
@@ -55,6 +50,56 @@ npm run dev
 ```
 This will automatically open [http://localhost:8080](http://localhost:8080).
 
+## Screenshots
+
+#### Home
+
+![home-1](./screenshots/home-1.png)
+![home-2](./screenshots/home-2.png)
+![home-3](./screenshots/home-3.png)
+
+#### Search
+
+![search](./screenshots/search.png)
+
+#### Login
+
+![login](./screenshots/login.png)
+
+#### Register
+
+![register](./screenshots/register.png)
+
+#### Online Chat
+
+![chat-1](./screenshots/chat-1.png)
+![chat-2](./screenshots/chat-2.png)
+
+#### Shopping Cart
+
+![shopping-cart](./screenshots/shopping-cart.png)
+
+#### My Order
+
+![my-order](./screenshots/my-order.png)
+
+#### My Info.
+
+![my-info](./screenshots/my-info.png)
+
+#### Shop
+
+![shop](./screenshots/shop.png)
+
+#### Car Info.
+
+![car-1](./screenshots/car-1.png)
+![car-2](./screenshots/car-2.png)
+
+#### Order Info.
+
+![order](./screenshots/order.png)
+
 ## License
-[MIT](https://github.com/lipses/CarShop/blob/browser/LICENSE)  
-Copyright (c) 2017-present lipses
+[MIT](./LICENSE)  
+Copyright (c) 2017-present lipese

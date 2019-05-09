@@ -1,10 +1,7 @@
-[For English User](https://github.com/lipses/CarShop/blob/master/README.md)
+[For English User](./README.md)
 
-一个简单的网上汽车销售系统，大三数据库课程设计小组所做的项目，bug比较多，请谅解。
 # 前端
-前端是采用vue.js框架与ElemeUI写的.[前端源代码](https://github.com/lipses/CarShop/tree/browser)
-# 后端
-后端采用MVC框架,用JAVA语言与MySQL一起写的.[后端源代码](https://github.com/lipses/CarShop/tree/server)
+前端是采用vue.js框架与ElemeUI写的
 
 ---
 
@@ -44,7 +41,7 @@
 ## 开发
 ```text
 # clone the project
-git clone -b browser https://github.com/lipses/CarShop.git
+git clone -b browser https://github.com/lipese/CarShop.git
 
 # install dependency
 npm install
@@ -53,6 +50,57 @@ npm install
 npm run dev
 ```
 浏览器访问[http://localhost:8080](http://localhost:8080).
-## License
-[MIT](https://github.com/lipses/CarShop/blob/browser/LICENSE)  
-Copyright (c) 2017-present lipses
+
+## 截图
+
+#### 主页
+
+![home-1](./screenshots/home-1.png)
+![home-2](./screenshots/home-2.png)
+![home-3](./screenshots/home-3.png)
+
+#### 搜索
+
+![search](./screenshots/search.png)
+
+#### 登录
+
+![login](./screenshots/login.png)
+
+#### 注册
+
+![register](./screenshots/register.png)
+
+#### 在线聊天
+
+![chat-1](./screenshots/chat-1.png)
+![chat-2](./screenshots/chat-2.png)
+
+#### 购物车
+
+![shopping-cart](./screenshots/shopping-cart.png)
+
+#### 我的订单
+
+![my-order](./screenshots/my-order.png)
+
+#### 我的信息
+
+![my-info](./screenshots/my-info.png)
+
+#### 店铺
+
+![shop](./screenshots/shop.png)
+
+#### 汽车信息
+
+![car-1](./screenshots/car-1.png)
+![car-2](./screenshots/car-2.png)
+
+#### 订单信息
+
+![order](./screenshots/order.png)
+
+## 许可证
+[MIT](./LICENSE)  
+Copyright (c) 2017-present lipese
