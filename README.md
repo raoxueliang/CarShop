@@ -45,10 +45,18 @@ git clone -b browser https://github.com/lipese/CarShop.git
 # install dependency
 npm install
 
+# change server ip (loc:./src/config/index.js)
+serverIp:'localhost'  //change 'localhost' to the real server IP, such as '192.168.0.1'
+
 # develop
 npm run dev
 ```
-This will automatically open [http://localhost:8080](http://localhost:8080).
+This will automatically open [http://localhost:8081](http://localhost:8081).
+
+I have encountered some problems in the development process and solutions, I hope it can help you:
+
+[Front-end and Back-end CROS Problems](https://lipese.github.io/development/vue-cros/)
+[Front-end Token Generation](https://lipese.github.io/development/vue-token/)
 
 ## Screenshots
 
@@ -60,7 +68,8 @@ This will automatically open [http://localhost:8080](http://localhost:8080).
 
 #### Search
 
-![search](./screenshots/search.png)
+![search-1](./screenshots/search-1.png)
+![search-2](./screenshots/search-2.png)
 
 #### Login
 
@@ -99,6 +108,21 @@ This will automatically open [http://localhost:8080](http://localhost:8080).
 #### Order Info.
 
 ![order](./screenshots/order.png)
+
+#### Admin Page
+
+![admin-1](./screenshots/admin-1.png)
+![admin-2](./screenshots/admin-2.png)
+![admin-1](./screenshots/admin-3.png)
+
+## reference
+
+Vue:[https://cn.vuejs.org](https://cn.vuejs.org/)
+Vue-router:[https://router.vuejs.org](https://router.vuejs.org/)
+Vuex:[https://vuex.vuejs.org](https://vuex.vuejs.org/)
+Element-UI:[https://element.eleme.cn](https://element.eleme.cn/)
+vue-element-admin:[https://panjiachen.github.io/vue-element-admin-site](https://panjiachen.github.io/vue-element-admin-site/)
+git：[http://www.liaoxuefeng.com](http://www.liaoxuefeng.com/)
 
 ## License
 [MIT](./LICENSE)  

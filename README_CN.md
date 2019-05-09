@@ -40,16 +40,24 @@
 ```
 ## 开发
 ```text
-# clone the project
+# 克隆项目前端
 git clone -b browser https://github.com/lipese/CarShop.git
 
-# install dependency
+# 安装依赖
 npm install
 
-# develop
+# 修改项目配置文件./src/config/index.js后端IP地址
+serverIp:'localhost'  //将localhost修改为对应IP地址，如192.168.0.1
+
+# 运行
 npm run dev
 ```
-浏览器访问[http://localhost:8080](http://localhost:8080).
+浏览器访问[http://localhost:8081](http://localhost:8081).
+
+我在开发过程遇到的一些问题以及解决方法，希望对你有所帮助：
+
+[前后端跨域问题](https://lipese.github.io/development/vue-cros/)
+[前端Token生成](https://lipese.github.io/development/vue-token/)
 
 ## 截图
 
@@ -61,7 +69,8 @@ npm run dev
 
 #### 搜索
 
-![search](./screenshots/search.png)
+![search-1](./screenshots/search-1.png)
+![search-2](./screenshots/search-2.png)
 
 #### 登录
 
@@ -100,6 +109,21 @@ npm run dev
 #### 订单信息
 
 ![order](./screenshots/order.png)
+
+#### 管理员页面
+
+![admin-1](./screenshots/admin-1.png)
+![admin-2](./screenshots/admin-2.png)
+![admin-1](./screenshots/admin-3.png)
+
+## 参考资料
+
+Vue:[https://cn.vuejs.org](https://cn.vuejs.org/)
+Vue-router:[https://router.vuejs.org](https://router.vuejs.org/)
+Vuex:[https://vuex.vuejs.org](https://vuex.vuejs.org/)
+Element-UI:[https://element.eleme.cn](https://element.eleme.cn/)
+vue-element-admin:[https://panjiachen.github.io/vue-element-admin-site](https://panjiachen.github.io/vue-element-admin-site/)
+git：[http://www.liaoxuefeng.com](http://www.liaoxuefeng.com/)
 
 ## 许可证
 [MIT](./LICENSE)  
