@@ -1,9 +1,7 @@
 [For English User](./README.md)
 
-# 前端
-前端是采用vue.js框架与ElemeUI写的
-
----
+## 前端
+前端是采用VUE框架与ElemeUI写的
 
 ## 前序准备
 你需要在本地安装 node 和 git。本项目技术栈基于 ES2015+、vue、vuex、vue-router 、axios 和 element-ui,提前了解和学习这些知识会对使用本项目有很大的帮助。
@@ -56,61 +54,61 @@ npm run dev
 
 我在开发过程遇到的一些问题以及解决方法，希望对你有所帮助：
 
-[前后端跨域问题](https://lipese.github.io/development/vue-cros/)
-[前端Token生成](https://lipese.github.io/development/vue-token/)
+- [前后端跨域问题](https://lipese.github.io/development/vue-cros/)
+- [前端Token生成](https://lipese.github.io/development/vue-token/)
 
 ## 截图
 
-#### 主页
+### 主页
 
 ![home-1](./screenshots/home-1.png)
 ![home-2](./screenshots/home-2.png)
 ![home-3](./screenshots/home-3.png)
 
-#### 搜索
+### 搜索
 
 ![search-1](./screenshots/search-1.png)
 ![search-2](./screenshots/search-2.png)
 
-#### 登录
+### 登录
 
 ![login](./screenshots/login.png)
 
-#### 注册
+### 注册
 
 ![register](./screenshots/register.png)
 
-#### 在线聊天
+### 在线聊天
 
 ![chat-1](./screenshots/chat-1.png)
 ![chat-2](./screenshots/chat-2.png)
 
-#### 购物车
+### 购物车
 
 ![shopping-cart](./screenshots/shopping-cart.png)
 
-#### 我的订单
+### 我的订单
 
 ![my-order](./screenshots/my-order.png)
 
-#### 我的信息
+### 我的信息
 
 ![my-info](./screenshots/my-info.png)
 
-#### 店铺
+### 店铺
 
 ![shop](./screenshots/shop.png)
 
-#### 汽车信息
+### 汽车信息
 
 ![car-1](./screenshots/car-1.png)
 ![car-2](./screenshots/car-2.png)
 
-#### 订单信息
+### 订单信息
 
 ![order](./screenshots/order.png)
 
-#### 管理员页面
+### 管理员页面
 
 ![admin-1](./screenshots/admin-1.png)
 ![admin-2](./screenshots/admin-2.png)
@@ -118,12 +116,12 @@ npm run dev
 
 ## 参考资料
 
-Vue:[https://cn.vuejs.org](https://cn.vuejs.org/)
-Vue-router:[https://router.vuejs.org](https://router.vuejs.org/)
-Vuex:[https://vuex.vuejs.org](https://vuex.vuejs.org/)
-Element-UI:[https://element.eleme.cn](https://element.eleme.cn/)
-vue-element-admin:[https://panjiachen.github.io/vue-element-admin-site](https://panjiachen.github.io/vue-element-admin-site/)
-git：[http://www.liaoxuefeng.com](http://www.liaoxuefeng.com/)
+- Vue:[https://cn.vuejs.org](https://cn.vuejs.org/)
+- Vue-router:[https://router.vuejs.org](https://router.vuejs.org/)
+- Vuex:[https://vuex.vuejs.org](https://vuex.vuejs.org/)
+- Element-UI:[https://element.eleme.cn](https://element.eleme.cn/)
+- vue-element-admin:[https://panjiachen.github.io/vue-element-admin-site](https://panjiachen.github.io/vue-element-admin-site/)
+- git：[http://www.liaoxuefeng.com](http://www.liaoxuefeng.com/)
 
 ## 许可证
 [MIT](./LICENSE)  
